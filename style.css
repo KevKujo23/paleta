@@ -189,6 +189,10 @@ input[type="radio"] { width: 20px; height: 20px; margin: 0; flex-shrink: 0; acce
   .wheel__handle { width: 36px; height: 36px; margin: -18px 0 0 -18px; border-width: 4px; }
 }
 
+.spectrum { margin-top: 32px; max-width: 420px; }
+.spectrum svg { display: block; width: 100%; height: auto; font-family: var(--at); }
+.spectrum svg rect { stroke: #111111; stroke-width: 1; }
+
 /* ---------- #schemes ---------- */
 .seg--grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .seg--grid button { border-left: 1px solid var(--ink); border-top: 1px solid var(--ink); margin: -1px 0 0 -1px; }
