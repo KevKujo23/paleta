@@ -342,6 +342,8 @@
     q.split = L.clamp(Math.round(p), 0, 100);
     applyView();
   }
+  // Lets motion.js sweep the divider on entry without reaching into this file's state.
+  window.PaletaUI = { setSplit };
   function applyView() {
     stage.dataset.view = q.view;
     if (mobile.matches) { after.style.clipPath = ''; return; }
