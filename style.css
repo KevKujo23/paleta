@@ -120,7 +120,7 @@ input[type="radio"] { width: 20px; height: 20px; margin: 0; flex-shrink: 0; acce
 .split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; }
 .copy { grid-column: 1 / span 5; }
 /* Desktop: the section title stays put while its widget scrolls past beside it. */
-@media (min-width: 1024px) { .lesson .split > .copy { position: sticky; top: calc(var(--nav-h) + 40px); } }
+@media (min-width: 1024px) { .lesson .split:not(.qhead) > .copy { position: sticky; top: calc(var(--nav-h) + 40px); } }
 .widget { grid-column: 6 / span 7; container-type: inline-size; }
 .whead { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding-bottom: 12px; margin-bottom: 24px; border-bottom: 1px solid var(--ink); }
 
