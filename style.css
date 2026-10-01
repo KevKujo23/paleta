@@ -126,12 +126,14 @@ input[type="radio"] { width: 20px; height: 20px; margin: 0; flex-shrink: 0; acce
 
 .lesson { padding-bottom: 136px; }
 main { overflow-x: clip; }
-.lesson > .wrap:first-child { border-top: 1px solid var(--ink); padding-top: var(--sec); }
+.lesson > .wrap:first-child { padding-top: var(--sec); }
 
 /* ---------- nav ---------- */
 .nav { position: sticky; top: 0; z-index: 20; background: var(--bone); border-bottom: 2px solid var(--g3); }
 .nav__in { height: calc(var(--nav-h) - 2px); display: flex; align-items: center; justify-content: space-between; }
 .wordmark { font: 600 24px/1 var(--lx); letter-spacing: -0.02em; text-decoration: none; }
+a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
+.wordmark__by { font: 400 12px/1.2 var(--at); letter-spacing: 0.01em; color: var(--g1); }
 .nav__links { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
 .nav__links a { display: block; padding: 12px 0; font: 500 15px/1 var(--lx); text-decoration: none; }
 .nav__links a[aria-current] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
@@ -281,7 +283,7 @@ main { overflow-x: clip; }
 .drawer__head { display: none; }
 
 .qpalette { margin-top: 32px; }
-.png8 { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 4fr); gap: 32px; align-items: start; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--g3); }
+.png8 { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 4fr); gap: 32px; align-items: start; margin-top: 56px;  }
 .png8 img { display: block; width: 100%; height: auto; }
 @media (max-width: 767px) { .png8 { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; } }
 code { font: 0.9em/1 ui-monospace, SFMono-Regular, Consolas, monospace; }
