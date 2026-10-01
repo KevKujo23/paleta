@@ -45,7 +45,6 @@ h1, h2 { text-wrap: balance; }
 .body, .lede, .cap { text-wrap: pretty; }
 .num { font: 300 96px/1 var(--lx); letter-spacing: -0.03em; color: var(--g2); }
 .lbl { font: 600 12px/1.2 var(--lx); letter-spacing: 0.08em; text-transform: uppercase; }
-.kicker { margin-top: 24px; }
 .body { margin-top: 16px; max-width: 66ch; }
 .cap { font-size: 15px; line-height: 1.5; letter-spacing: 0.01em; color: var(--g1); margin-top: 12px; }
 .small { font-size: 13px; }
@@ -69,6 +68,7 @@ h1, h2 { text-wrap: balance; }
 }
 .btn:hover { background: var(--ink); color: var(--bone); }
 .btn:active:not(:disabled), .seg button:active, .sw:active .sw__track { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } .btn:active, .seg button:active, .sw:active .sw__track { transform: none; } }
 .btn--sm { height: 44px; padding: 0 16px; font-size: 15px; }
 .btn:disabled { color: var(--g2); border-color: var(--g2); background: transparent; cursor: default; }
 
@@ -96,7 +96,7 @@ h1, h2 { text-wrap: balance; }
 .pair input[type="range"] { flex: 1 1 auto; min-width: 0; }
 
 input[type="number"], .val {
-  height: 40px; border: 1px solid var(--ink); border-radius: 2px; background: var(--bone);
+  height: 40px; border: 1px solid var(--ink); border-radius: 4px; background: var(--bone);
   font: 700 16px/1 var(--at); font-variant-numeric: tabular-nums; color: var(--ink);
 }
 input[type="number"] { width: 76px; flex-shrink: 0; text-align: center; padding: 0 4px; }
@@ -200,7 +200,8 @@ input[type="radio"] { width: 20px; height: 20px; margin: 0; flex-shrink: 0; acce
 .levels tr.is-active td { font-weight: 700; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
 
 /* ---------- #quantize ---------- */
-.qhead__text { grid-column: 6 / span 7; align-self: end; }
+.qhead__text { grid-column: 1 / span 8; margin-top: 24px; }
+.qhead__text > * { max-width: 65ch; }
 .qhead__text .body { margin-top: 0; }
 .mob-only { display: none; }
 
@@ -228,7 +229,7 @@ input[type="radio"] { width: 20px; height: 20px; margin: 0; flex-shrink: 0; acce
 .handle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; box-shadow: 0 0 0 6px var(--bone); }
 .drag-readout {
   position: absolute; z-index: 4; top: calc(50% - 62px); left: 50%; transform: translateX(-50%);
-  background: var(--ink); color: var(--bone); padding: 4px 8px; border-radius: 2px;
+  background: var(--ink); color: var(--bone); padding: 4px 8px; border-radius: 4px;
   font: 700 13px/1.2 var(--at); font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
 }
 
@@ -334,7 +335,6 @@ code { font: 0.9em/1 ui-monospace, SFMono-Regular, Consolas, monospace; }
   .copy, .widget, .qhead__text { grid-column: 1 / -1; }
   .widget { margin-top: 32px; }
   .num { font-size: 64px; }
-  .kicker { margin-top: 16px; }
   .body { margin-top: 12px; }
   .cap { margin-top: 8px; }
   .lesson { padding-bottom: 64px; }

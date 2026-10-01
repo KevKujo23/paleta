@@ -61,7 +61,6 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">01</div>
-      <p class="lbl g1 kicker">RGB</p>
       <h2>A pixel is three lights</h2>
       <p class="body">Your screen has no yellow in it. Each pixel is three tiny lights, red, green and blue, and each one’s brightness is a number from 0 to 255. Mix 242 red, 194 green and 48 blue and your eye sees jeepney yellow.</p>
       <p class="cap">Try it: set all three to 255, then all three to 0.</p>
@@ -82,15 +81,15 @@
         </figure>
         <div class="pixel__sliders">
           <div class="field">
-            <label for="px-r" class="lbl">Red channel · 0–255</label>
+            <label for="px-r" class="lbl">Red channel · 0-255</label>
             <div class="pair"><input id="px-r" type="range" min="0" max="255" value="242"><input id="px-r-n" type="number" inputmode="numeric" min="0" max="255" value="242" aria-label="Red value"></div>
           </div>
           <div class="field">
-            <label for="px-g" class="lbl">Green channel · 0–255</label>
+            <label for="px-g" class="lbl">Green channel · 0-255</label>
             <div class="pair"><input id="px-g" type="range" min="0" max="255" value="194"><input id="px-g-n" type="number" inputmode="numeric" min="0" max="255" value="194" aria-label="Green value"></div>
           </div>
           <div class="field">
-            <label for="px-b" class="lbl">Blue channel · 0–255</label>
+            <label for="px-b" class="lbl">Blue channel · 0-255</label>
             <div class="pair"><input id="px-b" type="range" min="0" max="255" value="48"><input id="px-b-n" type="number" inputmode="numeric" min="0" max="255" value="48" aria-label="Blue value"></div>
           </div>
         </div>
@@ -112,7 +111,6 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">02</div>
-      <p class="lbl g1 kicker">RGB · HEX · HSL · CMYK</p>
       <h2>Same colour, four names</h2>
       <p class="body">RGB, HEX, HSL and CMYK are four ways of writing down one colour. HEX is RGB in base 16. HSL says it the way people talk: which hue, how vivid, how light. CMYK is subtractive, ink on paper, so it can only approximate a colour made of light.</p>
       <p class="cap">Drag the handle on the wheel, or type into any row.</p>
@@ -128,7 +126,7 @@
           </div>
           <p class="cap small" id="wheel-help">Arrow keys: left and right turn the hue, up and down change saturation. Hold Shift for steps of 10.</p>
           <div class="field">
-            <label for="md-l" class="lbl">Lightness · 0–100%</label>
+            <label for="md-l" class="lbl">Lightness · 0-100%</label>
             <div class="pair"><input id="md-l" type="range" min="0" max="100" value="57"><input id="md-l-n" type="number" inputmode="numeric" min="0" max="100" value="57" aria-label="Lightness percent"></div>
           </div>
         </div>
@@ -139,7 +137,7 @@
             <tbody>
               <tr>
                 <th scope="row" class="lbl"><label for="md-rgb">RGB</label></th>
-                <td><input class="val" id="md-rgb" type="text" value="rgb(242,194,48)" spellcheck="false" autocomplete="off" aria-describedby="md-rgb-d"><span class="cap small" id="md-rgb-d">Additive · light · screen</span></td>
+                <td><input class="val" id="md-rgb" type="text" value="rgb(242,194,48)" spellcheck="false" autocomplete="off" aria-describedby="md-rgb-d"><span class="cap small" id="md-rgb-d">Additive light, for screens</span></td>
               </tr>
               <tr>
                 <th scope="row" class="lbl"><label for="md-hex">HEX</label></th>
@@ -147,11 +145,11 @@
               </tr>
               <tr>
                 <th scope="row" class="lbl"><label for="md-hsl">HSL</label></th>
-                <td><input class="val" id="md-hsl" type="text" value="hsl(45,88%,57%)" spellcheck="false" autocomplete="off" aria-describedby="md-hsl-d"><span class="cap small" id="md-hsl-d">Hue angle · saturation · lightness</span></td>
+                <td><input class="val" id="md-hsl" type="text" value="hsl(45,88%,57%)" spellcheck="false" autocomplete="off" aria-describedby="md-hsl-d"><span class="cap small" id="md-hsl-d">Hue angle, saturation, lightness</span></td>
               </tr>
               <tr>
                 <th scope="row" class="lbl"><label for="md-cmyk">CMYK</label></th>
-                <td><span class="approx"><span class="readout" aria-hidden="true">approx</span><input class="val" id="md-cmyk" type="text" value="0,20,80,5" spellcheck="false" autocomplete="off" aria-describedby="md-cmyk-d"></span><span class="cap small" id="md-cmyk-d">Approx · subtractive · print</span></td>
+                <td><span class="approx"><span class="readout" aria-hidden="true">approx</span><input class="val" id="md-cmyk" type="text" value="0,20,80,5" spellcheck="false" autocomplete="off" aria-describedby="md-cmyk-d"></span><span class="cap small" id="md-cmyk-d">Approximate: subtractive ink, for print</span></td>
               </tr>
             </tbody>
           </table>
@@ -167,7 +165,6 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">03</div>
-      <p class="lbl g1 kicker">Bit depth</p>
       <h2>Bits decide how many colours</h2>
       <p class="body">Every bit you add doubles the values a pixel can hold: n bits give 2<sup>n</sup>. One bit is two values, black or yellow. Four bits give sixteen steps, and you can see every one. Twenty-four bits, eight per channel, give over sixteen million colours, more than the eye can separate.</p>
       <p class="formula tab">colours = 2<sup>n</sup></p>
@@ -205,11 +202,10 @@
   <div class="wrap split qhead">
     <div class="copy">
       <div class="num" aria-hidden="true">04</div>
-      <p class="lbl g1 kicker">The main event</p>
       <h2>Squeeze the jeepney</h2>
     </div>
     <div class="qhead__text">
-      <p class="body">Quantization keeps a small palette and repaints every pixel with its nearest match. Drag the divider across the jeepney: the left side is the original, the right is what survives. Fewer colours means fewer symbols to encode, which is exactly why compression loves it.</p>
+      <p class="body">Quantization keeps a small palette and repaints every pixel with its nearest match. Drag the divider across the jeepney: the left side is the original, the right is what survives. Fewer colours means fewer symbols to encode, so the file compresses better.</p>
       <p class="cap desk-only">Uniform cuts every channel into equal steps. Median cut splits the photo’s own colours into boxes of equal population, so it spends colours where the photo needs them.</p>
       <details class="mob-only q-more">
         <summary>Uniform vs median cut</summary>
@@ -225,8 +221,8 @@
   <div class="stage" id="q-stage" data-view="after">
     <canvas id="q-before" role="img" aria-label="Before: the jeepney photo, original colours"></canvas>
     <canvas id="q-after" role="img" aria-label="After: quantized to 16 colours with median cut"></canvas>
-    <span class="chip chip--tl lbl" id="q-before-chip">Before · original · 24-bit</span>
-    <span class="chip chip--tr lbl" id="q-after-chip">After · 16 colours · median cut</span>
+    <span class="chip chip--tl lbl" id="q-before-chip">Before: original, 24-bit</span>
+    <span class="chip chip--tr lbl" id="q-after-chip">After: 16 colours, median cut</span>
     <p class="chip chip--bl" id="q-source" hidden></p>
     <div class="divider" id="q-line" aria-hidden="true"></div>
     <span class="drag-readout tab" id="q-readout" hidden>50% original</span>
@@ -243,7 +239,7 @@
         <button type="button" class="btn btn--sm" id="q-done">Done</button>
       </div>
       <div class="qc field">
-        <label for="q-n" class="lbl">Colours · 2–256</label>
+        <label for="q-n" class="lbl">Colours · 2-256</label>
         <div class="pair"><input id="q-n" type="range" min="2" max="256" value="16"><input id="q-n-n" type="number" inputmode="numeric" min="2" max="256" value="16" aria-label="Colour count"></div>
       </div>
       <div class="qc">
@@ -255,7 +251,7 @@
       </div>
       <div class="qc">
         <p class="lbl">Dithering</p>
-        <button type="button" class="sw" role="switch" aria-checked="false" id="q-dither"><span class="sw__track"><span class="sw__knob"></span></span>Floyd–Steinberg</button>
+        <button type="button" class="sw" role="switch" aria-checked="false" id="q-dither"><span class="sw__track"><span class="sw__knob"></span></span>Floyd-Steinberg</button>
       </div>
       <div class="qc">
         <p class="lbl">Your photo</p>
@@ -273,7 +269,7 @@
     <div class="qpalette">
       <div class="qpalette__head">
         <h3 class="lbl" id="q-lut-lbl">Palette (LUT) · 16 entries</h3>
-        <p class="readout tab" id="q-stats">16 colours used · 4 bits per pixel · est. size …</p>
+        <p class="readout tab" id="q-stats">16 colours used · 4 bits per pixel, est. size …</p>
       </div>
       <ul class="chips" id="q-chips" aria-labelledby="q-lut-lbl"></ul>
       <p class="cap small mt10">Estimated size is the raw indexed pixels plus the palette, before any compression.</p>
@@ -288,7 +284,7 @@
     </figure>
 
     <button type="button" class="drawer-bar mob-only" id="q-drawer-btn" aria-expanded="false" aria-controls="q-controls">
-      <span class="lbl">Controls</span><span class="tab" id="q-summary">16 · Median cut · Dither off</span><span aria-hidden="true">▴</span>
+      <span class="lbl">Controls</span><span class="tab" id="q-summary">16 · Median cut, dither off</span><span aria-hidden="true">▴</span>
     </button>
   </div>
 </section>
@@ -298,7 +294,6 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">05</div>
-      <p class="lbl g1 kicker">Sound</p>
       <h2>Hear quantization</h2>
       <p class="body">Sound is quantized too. Each sample of a wave is a number, and bit depth decides how many values it can take. Cut the bits and the smooth wave becomes a staircase you can hear as fizz and grit. Link the slider to the jeepney and one number drives both.</p>
       <p class="cap">The tone never plays on its own; press Play.</p>
@@ -310,14 +305,14 @@
         <audio id="demo-audio" controls preload="none" src="assets/audio/crusher-demo.mp3">Your browser can’t play this audio. <a href="assets/audio/crusher-demo.mp3">Download crusher-demo.mp3</a>.</audio>
         <p class="cap small">One A-major arpeggio played seven times, at 16, 8, 6, 4, 3, 2 and finally 1 bit. Listen for the hiss creeping in from 4 bits down.</p>
       </div>
-      <p class="lbl mt28">Live tone · Web Audio · 440 Hz sine</p>
+      <p class="lbl mt28">Live tone: 440 Hz sine, Web Audio</p>
       <div class="tone-row">
         <button type="button" class="btn btn--sm" id="tone-play"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5 L12.5 8 L4.5 13.5 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg> Play tone</button>
         <button type="button" class="btn btn--sm" id="tone-stop"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5 H12.5 V12.5 H3.5 Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg> Stop</button>
         <span class="cap small" id="tone-status" role="status">Stopped</span>
       </div>
       <div class="field mt28">
-        <label for="snd-bits" class="lbl">Sound bit depth · 1–16</label>
+        <label for="snd-bits" class="lbl">Sound bit depth · 1-16</label>
         <div class="pair"><input id="snd-bits" type="range" min="1" max="16" value="4"><input id="snd-bits-n" type="number" inputmode="numeric" min="1" max="16" value="4" aria-label="Sound bit depth"></div>
       </div>
       <div class="link-row">
@@ -330,7 +325,7 @@
           <path id="wave-smooth" fill="none" stroke="#B8B7B2" stroke-width="1.5"/>
           <path id="wave-steps" fill="none" stroke="#111111" stroke-width="2"/>
         </svg>
-        <figcaption class="lbl g1" id="wave-cap">4 bits · 16 levels · staircase</figcaption>
+        <figcaption class="lbl g1" id="wave-cap">4 bits · 16 levels, staircase</figcaption>
       </figure>
     </div>
   </div>
@@ -341,7 +336,6 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">06</div>
-      <p class="lbl g1 kicker">Self-test</p>
       <h2>Check yourself</h2>
       <p class="body">Three questions, one for each big idea. A wrong answer doesn’t just say so: it sends you back to the section that explains it.</p>
       <p class="cap">Nothing is recorded or graded.</p>
@@ -398,7 +392,6 @@
 <!-- ============ #spec ============ -->
 <section id="spec" class="lesson">
   <div class="wrap">
-    <p class="lbl g1">Media audit</p>
     <h2 id="spec-title">Technical Media Spec</h2>
     <p class="body mt12">Every media file on this page: what it weighed before and after, how many colours or bits it keeps, and how it was squeezed.</p>
     <p class="lbl g1 mob-only scroll-hint">Scroll sideways →</p>
@@ -450,8 +443,8 @@
       <div class="footer__refs">
         <p class="lbl g1">References</p>
         <ol>
-          <li>Heckbert, P. (1982). Color image quantization for frame buffer display. <i>Computer Graphics (SIGGRAPH ’82)</i>, 16(3), 297–307.</li>
-          <li>Floyd, R. W., &amp; Steinberg, L. (1976). An adaptive algorithm for spatial greyscale. <i>Proceedings of the Society for Information Display</i>, 17(2), 75–77.</li>
+          <li>Heckbert, P. (1982). Color image quantization for frame buffer display. <i>Computer Graphics (SIGGRAPH ’82)</i>, 16(3), 297-307.</li>
+          <li>Floyd, R. W., &amp; Steinberg, L. (1976). An adaptive algorithm for spatial greyscale. <i>Proceedings of the Society for Information Display</i>, 17(2), 75-77.</li>
           <li>W3C. <i>CSS Color Module Level 4.</i> <a href="https://www.w3.org/TR/css-color-4/">w3.org/TR/css-color-4</a></li>
           <li>Google. <i>WebP compression techniques.</i> <a href="https://developers.google.com/speed/webp/docs/compression">developers.google.com/speed/webp</a></li>
           <li>MDN Web Docs. <i>Web Audio API.</i> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">developer.mozilla.org</a></li>

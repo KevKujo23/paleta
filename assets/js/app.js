@@ -254,10 +254,10 @@
     actx2.putImageData(new ImageData(res.data, w, h), 0, 0);
 
     const size = res.palette.length;
-    const afterText = `After · ${size} colours · ${methodName()}${q.dither ? ' · dithered' : ''}`;
+    const afterText = `After: ${size} colours, ${methodName()}${q.dither ? ', dithered' : ''}`;
     $('#q-after-chip').textContent = afterText;
     $('#q-view-after').textContent = `After · ${size} colours`;
-    after.setAttribute('aria-label', `After: ${describeSource()} quantized to ${size} colours with ${methodName()}${q.dither ? ' and Floyd–Steinberg dithering' : ''}`);
+    after.setAttribute('aria-label', `After: ${describeSource()} quantized to ${size} colours with ${methodName()}${q.dither ? ' and Floyd-Steinberg dithering' : ''}`);
 
     $('#q-lut-lbl').textContent = `Palette (LUT) · ${size} entries`;
     const chips = $('#q-chips');
@@ -278,8 +278,8 @@
     const bpp = L.bitsFor(res.used);
     const grid = res.levels ? ` (uniform grid ${res.levels.join(' × ')})` : '';
     $('#q-stats').textContent =
-      `${res.used} colours used${grid} · ${bpp} bit${bpp > 1 ? 's' : ''} per pixel · est. size ${fmtBytes(L.estimateBytes(nw, nh, res.used))} (24-bit: ${fmtBytes(nw * nh * 3)})`;
-    $('#q-summary').textContent = `${q.n} · ${q.method === 'median' ? 'Median cut' : 'Uniform'} · Dither ${q.dither ? 'on' : 'off'}`;
+      `${res.used} colours used${grid} · ${bpp} bit${bpp > 1 ? 's' : ''} per pixel, est. size ${fmtBytes(L.estimateBytes(nw, nh, res.used))} (24-bit: ${fmtBytes(nw * nh * 3)})`;
+    $('#q-summary').textContent = `${q.n} · ${q.method === 'median' ? 'Median cut' : 'Uniform'}, dither ${q.dither ? 'on' : 'off'}`;
   }
 
   let quantQueued = false;
@@ -463,7 +463,7 @@
     $('#wave-smooth').setAttribute('d', smooth);
     $('#wave-steps').setAttribute('d', steps);
     const lv = (2 ** bits).toLocaleString('en');
-    $('#wave-cap').textContent = `${bits} bit${bits > 1 ? 's' : ''} · ${lv} levels · ${bits >= 12 ? 'close to smooth' : 'staircase'}`;
+    $('#wave-cap').textContent = `${bits} bit${bits > 1 ? 's' : ''} · ${lv} levels, ${bits >= 12 ? 'close to smooth' : 'staircase'}`;
     $('#wave').setAttribute('aria-label', `Waveform at ${bits} bits: ${bits >= 12 ? 'the steps are too small to see' : 'a staircase over the smooth original'}`);
   }
 
