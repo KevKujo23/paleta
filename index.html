@@ -32,6 +32,7 @@
         <li><a href="#models">Models</a></li>
         <li><a href="#schemes">Schemes</a></li>
         <li><a href="#depth">Depth</a></li>
+        <li><a href="#histogram">Histogram</a></li>
         <li><a href="#quantize">Quantize</a></li>
         <li><a href="#hear">Hear</a></li>
         <li><a href="#check">Check</a></li>
@@ -243,6 +244,36 @@
   </div>
 </section>
 
+<!-- ============ #histogram 05 ============ -->
+<section id="histogram" class="lesson">
+  <div class="wrap split">
+    <div class="copy">
+      <div class="num" aria-hidden="true">05</div>
+      <h2>Read the histogram</h2>
+      <p class="body">A histogram counts how many pixels sit at each brightness level, from black on the left to white on the right. It is the quickest way to judge a photo’s exposure: a well-exposed shot spreads across the whole range, a badly exposed one piles up at one end.</p>
+      <p class="cap">Switch the exposure and watch where the pixels go.</p>
+    </div>
+    <div class="widget">
+      <div class="whead"><h3 class="lbl">Exposure and the histogram</h3><span class="lbl g1">256 brightness levels</span></div>
+      <div class="seg seg--four" role="group" aria-label="Exposure" id="hist-seg">
+        <button type="button" data-exp="normal" aria-pressed="true">Normal</button>
+        <button type="button" data-exp="under" aria-pressed="false">Underexposed</button>
+        <button type="button" data-exp="over" aria-pressed="false">Overexposed</button>
+        <button type="button" data-exp="contrast" aria-pressed="false">High contrast</button>
+      </div>
+      <canvas class="hist-photo" id="hist-photo" width="600" height="400" role="img" aria-label="The jeepney photo at normal exposure"></canvas>
+      <canvas class="hist-graph" id="hist-graph" width="512" height="160" role="img" aria-label="Histogram"></canvas>
+      <div class="hist-axis" aria-hidden="true"><span>0 · black</span><span>shadows</span><span>midtones</span><span>highlights</span><span>255 · white</span></div>
+      <dl class="hist-stats tab" id="hist-stats">
+        <div><dt class="lbl g1">Shadows</dt><dd id="hist-sh">0%</dd></div>
+        <div><dt class="lbl g1">Midtones</dt><dd id="hist-mid">0%</dd></div>
+        <div><dt class="lbl g1">Highlights</dt><dd id="hist-hi">0%</dd></div>
+      </dl>
+      <p class="cap" id="hist-read" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ #quantize 04 (full bleed) ============ -->
 <section id="quantize" class="lesson lesson--bleed">
   <div class="wrap split qhead">
@@ -339,7 +370,7 @@
 <section id="hear" class="lesson">
   <div class="wrap split">
     <div class="copy">
-      <div class="num" aria-hidden="true">05</div>
+      <div class="num" aria-hidden="true">07</div>
       <h2>Hear quantization</h2>
       <p class="body">Sound is quantized too. Each sample of a wave is a number, and bit depth decides how many values it can take. Cut the bits and the smooth wave becomes a staircase you can hear as fizz and grit. Link the slider to the jeepney and one number drives both.</p>
       <p class="cap">The tone never plays on its own; press Play.</p>
@@ -363,7 +394,7 @@
       </div>
       <div class="link-row">
         <button type="button" class="sw" role="switch" aria-checked="true" id="snd-link" aria-describedby="snd-link-note"><span class="sw__track"><span class="sw__knob"></span></span>Link to jeepney bits</button>
-        <span class="cap small" id="snd-link-note">Synced with 05 · Squeeze the jeepney (16 colours = 4 bits)</span>
+        <span class="cap small" id="snd-link-note">Synced with 06 · Squeeze the jeepney (16 colours = 4 bits)</span>
       </div>
       <figure class="wave">
         <svg id="wave" viewBox="0 0 690 160" role="img" aria-label="Waveform at 4 bits: a staircase over the smooth original">
@@ -381,16 +412,16 @@
 <section id="check" class="lesson">
   <div class="wrap split">
     <div class="copy">
-      <div class="num" aria-hidden="true">07</div>
+      <div class="num" aria-hidden="true">08</div>
       <h2>Check yourself</h2>
-      <p class="body">Four questions, one for each big idea. A wrong answer doesn’t just say so: it sends you back to the section that explains it.</p>
+      <p class="body">Five questions, one for each big idea. A wrong answer doesn’t just say so: it sends you back to the section that explains it.</p>
       <p class="cap">Nothing is recorded or graded.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Four questions</h3><span class="lbl g1">Feedback on selection</span></div>
+      <div class="whead"><h3 class="lbl">Five questions</h3><span class="lbl g1">Feedback on selection</span></div>
       <div class="quiz-top mob-only">
-        <p class="lbl" id="quiz-count" aria-live="polite">Question 1 of 4</p>
-        <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
+        <p class="lbl" id="quiz-count" aria-live="polite">Question 1 of 5</p>
+        <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span></div>
       </div>
       <div class="quiz">
         <div class="q is-current" data-link="#models" data-link-text="Revisit 02 · Same colour, five names →">
@@ -404,9 +435,20 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
+        <div class="q" data-link="#schemes" data-link-text="Revisit 03 · Colours that go together →">
+          <fieldset>
+            <legend>2 · Jeepney yellow sits at hue 45°. Its complementary colour sits at…</legend>
+            <div class="opts">
+              <label><input type="radio" name="q4" data-fb="That is 30° away, a neighbour: analogous, not complementary. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">75°</span></label>
+              <label><input type="radio" name="q4" data-fb="That is 120° away, one corner of a triadic scheme. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">165°</span></label>
+              <label><input type="radio" name="q4" data-correct data-fb="Complementary means directly opposite: 45 + 180 = 225°, a blue."><span class="tab">225°</span></label>
+            </div>
+          </fieldset>
+          <div class="fb" role="status"></div>
+        </div>
         <div class="q" data-link="#depth" data-link-text="Revisit 04 · Bits decide how many colours →">
           <fieldset>
-            <legend>2 · An 8-bit image can show at most how many colours?</legend>
+            <legend>3 · An 8-bit image can show at most how many colours?</legend>
             <div class="opts">
               <label><input type="radio" name="q2" data-fb="8 bits give 2⁸ = 256 values, not 8."><span class="tab">8</span></label>
               <label><input type="radio" name="q2" data-correct data-fb="8 bits give 2⁸ = 256 values, so 256 colours."><span class="tab">256</span></label>
@@ -415,24 +457,24 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#quantize" data-link-text="Revisit 05 · Squeeze the jeepney →">
+        <div class="q" data-link="#histogram" data-link-text="Revisit 05 · Read the histogram →">
           <fieldset>
-            <legend>3 · Dithering makes a 16-colour jeepney look smoother by…</legend>
+            <legend>4 · A photo’s histogram is piled up against the left edge. The photo is…</legend>
             <div class="opts">
-              <label><input type="radio" name="q3" data-fb="The palette stays at 16. Dithering only rearranges those 16 colours.">adding colours the palette doesn’t have</label>
-              <label><input type="radio" name="q3" data-correct data-fb="It adds no colours: it scatters the palette so neighbouring pixels average out at a distance.">scattering palette colours so they blend at a distance</label>
-              <label><input type="radio" name="q3" data-fb="Nothing is blurred. Dithering spreads each pixel’s rounding error to its neighbours.">blurring the photo before quantizing</label>
+              <label><input type="radio" name="q5" data-correct data-fb="Left is black, so a hill pushed left means most pixels are dark: underexposed.">underexposed</label>
+              <label><input type="radio" name="q5" data-fb="Overexposed photos pile up on the right, near white. Left is the dark end, so this one is underexposed.">overexposed</label>
+              <label><input type="radio" name="q5" data-fb="High contrast piles up at both ends with a gap in the middle. One hill on the left means underexposed.">high contrast</label>
             </div>
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#schemes" data-link-text="Revisit 03 · Colours that go together →">
+        <div class="q" data-link="#quantize" data-link-text="Revisit 06 · Squeeze the jeepney →">
           <fieldset>
-            <legend>4 · Jeepney yellow sits at hue 45°. Its complementary colour sits at…</legend>
+            <legend>5 · Dithering makes a 16-colour jeepney look smoother by…</legend>
             <div class="opts">
-              <label><input type="radio" name="q4" data-fb="That is 30° away, a neighbour: analogous, not complementary. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">75°</span></label>
-              <label><input type="radio" name="q4" data-fb="That is 120° away, one corner of a triadic scheme. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">165°</span></label>
-              <label><input type="radio" name="q4" data-correct data-fb="Complementary means directly opposite: 45 + 180 = 225°, a blue."><span class="tab">225°</span></label>
+              <label><input type="radio" name="q3" data-fb="The palette stays at 16. Dithering only rearranges those 16 colours.">adding colours the palette doesn’t have</label>
+              <label><input type="radio" name="q3" data-correct data-fb="It adds no colours: it scatters the palette so neighbouring pixels average out at a distance.">scattering palette colours so they blend at a distance</label>
+              <label><input type="radio" name="q3" data-fb="Nothing is blurred. Dithering spreads each pixel’s rounding error to its neighbours.">blurring the photo before quantizing</label>
             </div>
           </fieldset>
           <div class="fb" role="status"></div>

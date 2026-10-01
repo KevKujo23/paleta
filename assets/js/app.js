@@ -477,6 +477,67 @@
   if (heroImg.complete && heroImg.naturalWidth) useJeepney();
   else heroImg.addEventListener('load', useJeepney, { once: true });
 
+  /* ---------- #histogram ---------- */
+  // Each exposure is a tone curve applied to every channel of the original photo.
+  const exposures = {
+    normal: { name: 'normal exposure', f: (v) => v, read: 'Tones spread across the whole range, from deep shadows to bright highlights, with plenty of midtones in between.' },
+    under: { name: 'underexposed', f: (v) => v * 0.38, read: 'The hill is pushed against the left edge: most pixels are dark, and shadow detail merges into black.' },
+    over: { name: 'overexposed', f: (v) => 255 - (255 - v) * 0.35, read: 'The hill is squeezed to the right: low contrast, no real shadows, and the brightest parts turn flat white.' },
+    contrast: { name: 'high contrast', f: (v) => L.clamp((v - 128) * 2.4 + 128, 0, 255), read: 'Pixels pile up at both ends with a hollow middle: deep blacks and blown-out whites, few midtones.' },
+  };
+  const hist = { exp: 'normal', base: null };
+  const hPhoto = $('#hist-photo'), hpCtx = hPhoto.getContext('2d', { willReadFrequently: true });
+  const hGraph = $('#hist-graph'), hgCtx = hGraph.getContext('2d');
+  const histSeg = $$('#hist-seg button');
+  function histBase() {
+    const { width: w, height: h } = hPhoto;
+    if (q.jeepney) {
+      const img = q.jeepney;
+      const sc = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      hpCtx.drawImage(img, (w - img.naturalWidth * sc) / 2, (h - img.naturalHeight * sc) / 2, img.naturalWidth * sc, img.naturalHeight * sc);
+    } else {
+      drawRamp(hpCtx, w, h);
+    }
+    hist.base = hpCtx.getImageData(0, 0, w, h);
+  }
+  function renderHist() {
+    if (!hist.base) histBase();
+    const e = exposures[hist.exp];
+    const lut = new Uint8ClampedArray(256);
+    for (let v = 0; v < 256; v++) lut[v] = Math.round(e.f(v));
+    const src = hist.base.data, out = new ImageData(hist.base.width, hist.base.height), d = out.data;
+    const bins = new Uint32Array(256);
+    for (let i = 0; i < src.length; i += 4) {
+      const r = lut[src[i]], g = lut[src[i + 1]], b = lut[src[i + 2]];
+      d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255;
+      bins[Math.round(0.299 * r + 0.587 * g + 0.114 * b)]++;
+    }
+    hpCtx.putImageData(out, 0, 0);
+    // Bars scaled to the 99th-percentile bin so one clipped spike at 0 or 255 doesn't flatten the rest.
+    const sorted = [...bins].sort((x, y) => x - y);
+    const top = Math.max(1, sorted[253]);
+    const { width: W, height: H } = hGraph;
+    hgCtx.clearRect(0, 0, W, H);
+    hgCtx.fillStyle = '#111111';
+    for (let v = 0; v < 256; v++) {
+      const bh = Math.min(H, (bins[v] / top) * (H - 4));
+      hgCtx.fillRect(v * 2, H - bh, 2, bh);
+    }
+    const total = src.length / 4;
+    const share = (a, b) => { let n = 0; for (let v = a; v <= b; v++) n += bins[v]; return Math.round((n / total) * 100); };
+    const sh = share(0, 84), mid = share(85, 170), hi = 100 - sh - mid;
+    $('#hist-sh').textContent = `${sh}%`;
+    $('#hist-mid').textContent = `${mid}%`;
+    $('#hist-hi').textContent = `${hi}%`;
+    $('#hist-read').textContent = e.read;
+    hPhoto.setAttribute('aria-label', `The jeepney photo, ${e.name}`);
+    hGraph.setAttribute('aria-label', `Histogram, ${e.name}: ${sh}% of pixels in the shadows, ${mid}% in the midtones, ${hi}% in the highlights`);
+  }
+  histSeg.forEach((b) => b.addEventListener('click', () => { hist.exp = b.dataset.exp; pressOne(histSeg, b); renderHist(); }));
+  renderHist();
+  heroImg.addEventListener('load', () => { hist.base = null; renderHist(); });
+  if (heroImg.complete && q.jeepney) { hist.base = null; renderHist(); }
+
   /* ---------- #hear ---------- */
   let ctx = null, osc = null, shaper = null, soundBits = 4, linked = true;
   const toneStatus = $('#tone-status');
@@ -547,7 +608,7 @@
     const b = L.bitsFor(q.n);
     const eq = 2 ** b === q.n ? `${q.n} colours = ${b} bits` : `${q.n} colours need ${b} bits`;
     const cap = linked && soundBits > 8 ? ' · image capped at 256 colours = 8 bits' : '';
-    $('#snd-link-note').textContent = linked ? `Synced with 05 · Squeeze the jeepney (${eq})${cap}` : 'Not linked: the image and the tone move separately.';
+    $('#snd-link-note').textContent = linked ? `Synced with 06 · Squeeze the jeepney (${eq})${cap}` : 'Not linked: the image and the tone move separately.';
   }
   linkBtn.addEventListener('click', () => {
     linked = !linked;
