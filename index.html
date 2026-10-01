@@ -51,11 +51,13 @@
 <!-- ============ #top ============ -->
 <section id="top" class="hero">
   <div class="wrap">
-    <h1>Every colour on your screen is a number.</h1>
+    <h1>Every colour <span class="h1-pill" aria-hidden="true"></span> on your screen is a number.</h1>
     <p class="lede">Paleta takes one photo of a jeepney apart, pixel by pixel, until you can see the numbers.</p>
     <p class="hero__cta"><a href="#pixel" class="btn">Start with one pixel <span aria-hidden="true">↓</span></a></p>
     <figure class="hero__photo">
+      <div class="frame">
       <img id="hero-img" src="assets/images/jeepney-hero.webp" alt="A Filipino jeepney parked on a city street, painted in rainbow stripes with a blue and orange front, chrome grille, yellow fog lamps and an AMO Londelyn sign above the windshield" width="1500" height="1000" fetchpriority="high">
+      </div>
       <figcaption class="cap small">Photo: Albert Balbutin Jr. / filipeanut.art, cropped and re-encoded for this page.</figcaption>
     </figure>
   </div>
@@ -302,7 +304,7 @@
       <h2>Squeeze the jeepney</h2>
     </div>
     <div class="qhead__text">
-      <p class="body">Quantization keeps a small palette and repaints every pixel with its nearest match. Drag the divider across the jeepney: the left side is the original, the right is what survives. Fewer colours means fewer symbols to encode, so the file compresses better.</p>
+      <p class="body" id="q-lead">Quantization keeps a small palette and repaints every pixel with its nearest match. Drag the divider across the jeepney: the left side is the original, the right is what survives. Fewer colours means fewer symbols to encode, so the file compresses better.</p>
       <p class="cap desk-only">Uniform cuts every channel into equal steps. Median cut splits the photo’s own colours into boxes of equal population, so it spends colours where the photo needs them.</p>
       <details class="mob-only q-more">
         <summary>Uniform vs median cut</summary>
@@ -373,7 +375,7 @@
     </div>
 
     <figure class="png8">
-      <img src="assets/images/jeepney-256.png" alt="The same jeepney saved as a 256-colour indexed PNG: at this size it looks almost identical to the original" width="750" height="500" loading="lazy">
+      <div class="frame"><img src="assets/images/jeepney-256.png" alt="The same jeepney saved as a 256-colour indexed PNG: at this size it looks almost identical to the original" width="750" height="500" loading="lazy"></div>
       <figcaption>
         <h3 class="lbl">A real file: jeepney-256.png</h3>
         <p class="cap">The slider above is a live preview. This is the jeepney actually saved with a 256-colour palette (median cut, no dithering): every pixel is one 8-bit index into that palette. Saved as a 24-bit PNG the same 750 × 500 image weighs 683 KB; indexed, it is 227 KB, a third of the size, and the eye barely notices.</p>

@@ -28,6 +28,19 @@
       .from('.hero__photo img', { clipPath: 'inset(0 0 100% 0)', duration: 1.2, ease: 'power3.inOut' }, '-=0.3')
       .from('.hero__photo figcaption', { autoAlpha: 0, duration: 0.5 }, '-=0.3');
 
+    /* Photos grow into place as they arrive and dim as they leave, so the eye moves on with the page. */
+    $$('.hero__photo .frame, .png8 .frame').forEach((f) => {
+      gsap.fromTo(f, { scale: 0.9 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: f, start: 'top bottom', end: 'top 45%', scrub: true } });
+      gsap.to(f, { autoAlpha: 0.25, ease: 'none', scrollTrigger: { trigger: f, start: 'bottom 45%', end: 'bottom top', scrub: true } });
+    });
+
+    /* 06 lead paragraph: words light up in reading order as you scroll through it. */
+    const lead = $('#q-lead');
+    if (lead) {
+      lead.innerHTML = lead.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+      gsap.fromTo('#q-lead .w', { opacity: 0.15 }, { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: lead, start: 'top 85%', end: 'bottom 45%', scrub: true } });
+    }
+
     /* Every section: the number drifts as you pass (the hand-off between sections), copy and widget rise in. */
     $$('main > .lesson').forEach((sec) => {
       const num = $('.num', sec);
