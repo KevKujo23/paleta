@@ -239,7 +239,7 @@ input[type="radio"] { width: 20px; height: 20px; margin: 0; flex-shrink: 0; acce
 
 .stage {
   --edge: max(var(--margin), calc((100% - 1200px) / 2));
-  position: relative; width: 100%; aspect-ratio: 2 / 1; max-height: 80vh; margin-top: 48px;
+  position: relative; width: min(100%, 120vh); margin-inline: auto; aspect-ratio: 3 / 2; margin-top: 48px;
   overflow: hidden; background: var(--g3); touch-action: pan-y; user-select: none; cursor: ew-resize;
 }
 .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -400,7 +400,7 @@ code { font: 0.9em/1 ui-monospace, SFMono-Regular, Consolas, monospace; }
   .q-more .cap { margin: 0 0 12px; }
   .q-view { margin-top: 24px; }
 
-  .stage { aspect-ratio: 1 / 1; margin-top: 16px; cursor: auto; touch-action: auto; --edge: 20px; }
+  .stage { aspect-ratio: 3 / 2; margin-top: 16px; cursor: auto; touch-action: auto; --edge: 20px; }
   .divider, .handle, .drag-readout, .chip--br { display: none; }
   #q-after { clip-path: none; }
   .stage[data-view="before"] #q-after { visibility: hidden; }

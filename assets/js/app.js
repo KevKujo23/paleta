@@ -241,7 +241,7 @@
   const heroImg = $('#hero-img');
 
   function sizeBuffers() {
-    const [w, h] = mobile.matches ? [480, 480] : [960, 480];
+    const [w, h] = mobile.matches ? [600, 400] : [960, 640]; // same 3:2 shape as the photo, so none of the jeepney is cropped
     before.width = after.width = w;
     before.height = after.height = h;
   }
@@ -468,13 +468,25 @@
     x.drawImage(img, 0, 0, 1, 1);
     try { x.getImageData(0, 0, 1, 1); return true; } catch (e) { return false; }
   };
+  // Sections that draw the jeepney (quantizer, histogram) wait for a photo the canvas can read.
+  const jeepneyReady = [];
+  const setJeepney = (img) => {
+    q.jeepney = img;
+    if (!q.source) { q.source = img; drawSource(); renderQuant(); }
+    jeepneyReady.forEach((fn) => fn());
+  };
   const useJeepney = () => {
-    if (!readable(heroImg)) {
-      $('#q-err').textContent = 'Opened as a local file, the browser blocks reading the photo, so a colour ramp stands in. Use the live site to quantize the jeepney.';
-      return;
-    }
-    q.jeepney = heroImg;
-    if (!q.source) { q.source = heroImg; drawSource(); renderQuant(); }
+    if (readable(heroImg)) { setJeepney(heroImg); return; }
+    // Opened straight from a folder: the browser won't let a canvas read image files, but it will
+    // read an embedded copy. Load that copy instead, so the jeepney still appears.
+    const s = document.createElement('script');
+    s.src = 'assets/js/jeepney-data.js';
+    s.onload = () => {
+      const img = new Image();
+      img.onload = () => { if (readable(img)) setJeepney(img); };
+      img.src = window.PALETA_JEEPNEY;
+    };
+    document.head.append(s);
   };
   if (heroImg.complete && heroImg.naturalWidth) useJeepney();
   else heroImg.addEventListener('load', useJeepney, { once: true });
@@ -537,8 +549,8 @@
   }
   histSeg.forEach((b) => b.addEventListener('click', () => { hist.exp = b.dataset.exp; pressOne(histSeg, b); renderHist(); }));
   renderHist();
-  heroImg.addEventListener('load', () => { hist.base = null; renderHist(); });
-  if (heroImg.complete && q.jeepney) { hist.base = null; renderHist(); }
+  jeepneyReady.push(() => { hist.base = null; renderHist(); });
+  if (q.jeepney) { hist.base = null; renderHist(); }
 
   /* ---------- #hear ---------- */
   let ctx = null, osc = null, shaper = null, soundBits = 4, linked = true;
