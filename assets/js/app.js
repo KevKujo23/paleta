@@ -368,6 +368,7 @@
     const img = new Image();
     img.onload = () => {
       URL.revokeObjectURL(url);
+      if (!readable(img)) { qErr.textContent = 'This browser blocks reading photos on a page opened as a local file. Use the live site.'; return; }
       qErr.textContent = '';
       q.source = img;
       q.sourceName = file.name;
@@ -409,7 +410,20 @@
   mobile.addEventListener('change', () => { setDrawer(false, false); refreshAll(); });
 
   // The hero photo doubles as the quantizer's source once it has loaded.
+  // Opened straight from disk (file://), a canvas that draws the photo can't be read back,
+  // so test on a scratch canvas first and keep the colour ramp if it's blocked.
+  const readable = (img) => {
+    const c = document.createElement('canvas');
+    c.width = c.height = 1;
+    const x = c.getContext('2d');
+    x.drawImage(img, 0, 0, 1, 1);
+    try { x.getImageData(0, 0, 1, 1); return true; } catch (e) { return false; }
+  };
   const useJeepney = () => {
+    if (!readable(heroImg)) {
+      $('#q-err').textContent = 'Opened as a local file, the browser blocks reading the photo, so a colour ramp stands in. Use the live site to quantize the jeepney.';
+      return;
+    }
     q.jeepney = heroImg;
     if (!q.source) { q.source = heroImg; drawSource(); renderQuant(); }
   };
