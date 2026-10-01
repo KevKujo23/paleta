@@ -62,6 +62,7 @@
     rgb: ([r, g, b]) => `rgb(${r},${g},${b})`,
     hex: (rgb) => L.rgbToHex(...rgb),
     hsl: ([h, s, l]) => `hsl(${Math.round(h) % 360},${Math.round(s)}%,${Math.round(l)}%)`,
+    hsv: ([h, s, v]) => `hsv(${Math.round(h) % 360},${Math.round(s)}%,${Math.round(v)}%)`,
     cmyk: (rgb) => L.rgbToCmyk(...rgb).join(','),
   };
 
@@ -77,7 +78,7 @@
   function setHsl(hsl) { colour.hsl = hsl; colour.rgb = L.hslToRgb(...hsl); renderColour(); }
 
   const wheel = $('#wheel'), handle = $('#wheel-handle'), shade = $('#wheel-shade');
-  const valInputs = { rgb: $('#md-rgb'), hex: $('#md-hex'), hsl: $('#md-hsl'), cmyk: $('#md-cmyk') };
+  const valInputs = { rgb: $('#md-rgb'), hex: $('#md-hex'), hsl: $('#md-hsl'), hsv: $('#md-hsv'), cmyk: $('#md-cmyk') };
 
   function renderColour() {
     const [r, g, b] = colour.rgb;
@@ -93,7 +94,7 @@
 
     $('#md-swatch').style.background = hex;
     for (const k in valInputs) {
-      valInputs[k].value = k === 'hsl' ? fmt.hsl(colour.hsl) : fmt[k](colour.rgb);
+      valInputs[k].value = k === 'hsl' ? fmt.hsl(colour.hsl) : k === 'hsv' ? fmt.hsv(L.hslToHsv(...colour.hsl)) : fmt[k](colour.rgb);
       valInputs[k].removeAttribute('aria-invalid');
     }
     // Wheel image is drawn at 50% lightness; mixing in black or white gives the exact HSL colour.
@@ -144,9 +145,10 @@
     rgb: (v) => { const a = nums(v); return inRange(a, 3, 255) ? { rgb: a.map(Math.round) } : null; },
     hex: (v) => { const a = L.hexToRgb(v); return a ? { rgb: a } : null; },
     hsl: (v) => { const a = nums(v); return inRange(a, 3, [360, 100, 100]) ? { hsl: [a[0] % 360, a[1], a[2]] } : null; },
+    hsv: (v) => { const a = nums(v); return inRange(a, 3, [360, 100, 100]) ? { hsl: L.hsvToHsl(a[0] % 360, a[1], a[2]) } : null; },
     cmyk: (v) => { const a = nums(v); return inRange(a, 4, 100) ? { rgb: L.cmykToRgb(...a) } : null; },
   };
-  const examples = { rgb: 'rgb(242,194,48)', hex: '#F2C230', hsl: 'hsl(45,88%,57%)', cmyk: '0,20,80,5' };
+  const examples = { rgb: 'rgb(242,194,48)', hex: '#F2C230', hsl: 'hsl(45,88%,57%)', hsv: 'hsv(45,80%,95%)', cmyk: '0,20,80,5' };
   const mdErr = $('#md-err');
   for (const k in valInputs) {
     valInputs[k].addEventListener('change', () => {

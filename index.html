@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paleta · How screens store colour</title>
-<meta name="description" content="An interactive manual on Digital Color Systems and Quantization: mix a pixel, name it four ways, cut its bits, and squeeze a jeepney down to a small palette.">
+<meta name="description" content="An interactive manual on Digital Color Systems and Quantization: mix a pixel, name it five ways, cut its bits, and squeeze a jeepney down to a small palette.">
 <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,7 +63,7 @@
       <div class="num" aria-hidden="true">01</div>
       <h2>A pixel is three lights</h2>
       <p class="body">Your screen has no yellow in it. Each pixel is three tiny lights, red, green and blue, and each one’s brightness is a number from 0 to 255. Mix 242 red, 194 green and 48 blue and your eye sees jeepney yellow.</p>
-      <p class="cap">Try it: set all three to 255, then all three to 0.</p>
+      <p class="cap">Two lights at full strength make a secondary colour: red and green make yellow, green and blue make cyan, blue and red make magenta. All three at 255 make white; all three at 0, black. Try each one.</p>
     </div>
     <div class="widget">
       <div class="whead"><h3 class="lbl">Mix one pixel</h3><span class="lbl g1">8 bits × 3 channels = 24 bits</span></div>
@@ -111,12 +111,12 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">02</div>
-      <h2>Same colour, four names</h2>
-      <p class="body">RGB, HEX, HSL and CMYK are four ways of writing down one colour. HEX is RGB in base 16. HSL says it the way people talk: which hue, how vivid, how light. CMYK is subtractive, ink on paper, so it can only approximate a colour made of light.</p>
+      <h2>Same colour, five names</h2>
+      <p class="body">RGB, HEX, HSL, HSV and CMYK are five ways of writing down one colour. HEX is RGB in base 16. HSL says it the way people talk: which hue, how vivid, how light. HSV (also called HSB) keeps the hue but swaps lightness for value: 100% value is the pure colour, not white. CMYK is subtractive, ink on paper, so it can only approximate a colour made of light.</p>
       <p class="cap">Drag the handle on the wheel, or type into any row.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">One colour, four notations</h3><span class="lbl g1">SVG wheel</span></div>
+      <div class="whead"><h3 class="lbl">One colour, five notations</h3><span class="lbl g1">SVG wheel</span></div>
       <div class="models">
         <div class="models__wheel">
           <div class="wheel" id="wheel">
@@ -146,6 +146,10 @@
               <tr>
                 <th scope="row" class="lbl"><label for="md-hsl">HSL</label></th>
                 <td><input class="val" id="md-hsl" type="text" value="hsl(45,88%,57%)" spellcheck="false" autocomplete="off" aria-describedby="md-hsl-d"><span class="cap small" id="md-hsl-d">Hue angle, saturation, lightness</span></td>
+              </tr>
+              <tr>
+                <th scope="row" class="lbl"><label for="md-hsv">HSV</label></th>
+                <td><input class="val" id="md-hsv" type="text" value="hsv(45,80%,95%)" spellcheck="false" autocomplete="off" aria-describedby="md-hsv-d"><span class="cap small" id="md-hsv-d">Hue, saturation, value (HSB)</span></td>
               </tr>
               <tr>
                 <th scope="row" class="lbl"><label for="md-cmyk">CMYK</label></th>
@@ -347,7 +351,7 @@
         <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
       </div>
       <div class="quiz">
-        <div class="q is-current" data-link="#models" data-link-text="Revisit 02 · Same colour, four names →">
+        <div class="q is-current" data-link="#models" data-link-text="Revisit 02 · Same colour, five names →">
           <fieldset>
             <legend>1 · #F2C230 written in RGB is…</legend>
             <div class="opts">

@@ -44,6 +44,20 @@
     return [f(0), f(8), f(4)];
   }
 
+  // HSV (also called HSB) from HSL and back. Hue is shared, so only S and the third value change.
+  function hslToHsv(h, s, l) {
+    s /= 100; l /= 100;
+    const v = l + s * Math.min(l, 1 - l);
+    return [h, v ? 200 * (1 - l / v) : 0, v * 100];
+  }
+
+  function hsvToHsl(h, s, v) {
+    s /= 100; v /= 100;
+    const l = v * (1 - s / 2);
+    const m = Math.min(l, 1 - l);
+    return [h, m ? ((v - l) / m) * 100 : 0, l * 100];
+  }
+
   // Naive device-independent CMYK: close enough to teach, not a print profile.
   function rgbToCmyk(r, g, b) {
     const k = 1 - Math.max(r, g, b) / 255;
@@ -229,7 +243,7 @@
   }
 
   const api = {
-    clamp, rgbToHex, hexToRgb, rgbToHsl, hslToRgb, rgbToCmyk, cmykToRgb,
+    clamp, rgbToHex, hexToRgb, rgbToHsl, hslToRgb, hslToHsv, hsvToHsl, rgbToCmyk, cmykToRgb,
     depthColour, crush, uniformLevels, medianCut, quantize, bitsFor, estimateBytes,
   };
   root.PaletaLib = api;
