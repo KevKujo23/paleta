@@ -30,6 +30,7 @@
       <ul class="nav__links" id="nav-links">
         <li><a href="#pixel">Pixel</a></li>
         <li><a href="#models">Models</a></li>
+        <li><a href="#schemes">Schemes</a></li>
         <li><a href="#depth">Depth</a></li>
         <li><a href="#quantize">Quantize</a></li>
         <li><a href="#hear">Hear</a></li>
@@ -164,11 +165,52 @@
   </div>
 </section>
 
-<!-- ============ #depth 03 ============ -->
-<section id="depth" class="lesson">
+<!-- ============ #schemes 03 ============ -->
+<section id="schemes" class="lesson">
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">03</div>
+      <h2>Colours that go together</h2>
+      <p class="body">Colour theory lays the hues out on a wheel. A colour scheme is a rule for picking hues by where they sit on it: complementary colours face each other, analogous colours sit side by side, triadic colours are spread evenly in thirds. Designers use these rules so colours look chosen, not random.</p>
+      <p class="cap">Pick a scheme, then turn the base hue. It starts at jeepney yellow, 45°.</p>
+    </div>
+    <div class="widget">
+      <div class="whead"><h3 class="lbl">Build a colour scheme</h3><span class="lbl g1">Six schemes</span></div>
+      <div class="seg seg--grid" role="group" aria-label="Colour scheme" id="sc-seg">
+        <button type="button" data-scheme="complementary" aria-pressed="true">Complementary</button>
+        <button type="button" data-scheme="analogous" aria-pressed="false">Analogous</button>
+        <button type="button" data-scheme="split" aria-pressed="false">Split-compl.</button>
+        <button type="button" data-scheme="triadic" aria-pressed="false">Triadic</button>
+        <button type="button" data-scheme="tetradic" aria-pressed="false">Tetradic</button>
+        <button type="button" data-scheme="mono" aria-pressed="false">Monochromatic</button>
+      </div>
+      <div class="schemes">
+        <div class="wheel wheel--static">
+          <img src="assets/images/colour-wheel.svg" alt="" width="300" height="300" draggable="false">
+          <svg class="sc-overlay" viewBox="0 0 300 300" role="img" aria-labelledby="sc-name" id="sc-svg">
+            <polygon id="sc-shape" points=""/>
+            <g id="sc-dots"></g>
+          </svg>
+        </div>
+        <div class="schemes__info">
+          <p class="readout-lg" id="sc-name">Complementary</p>
+          <p class="cap mt8" id="sc-rule" aria-live="polite">Two hues directly opposite each other, 180° apart.</p>
+          <ul class="sc-swatches" id="sc-swatches" aria-label="Colours in this scheme"></ul>
+          <div class="field mt24">
+            <label for="sc-hue" class="lbl">Base hue · 0-359°</label>
+            <div class="pair"><input id="sc-hue" type="range" min="0" max="359" value="45"><input id="sc-hue-n" type="number" inputmode="numeric" min="0" max="359" value="45" aria-label="Base hue in degrees"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ #depth 04 ============ -->
+<section id="depth" class="lesson">
+  <div class="wrap split">
+    <div class="copy">
+      <div class="num" aria-hidden="true">04</div>
       <h2>Bits decide how many colours</h2>
       <p class="body">Every bit you add doubles the values a pixel can hold: n bits give 2<sup>n</sup>. One bit is two values, black or yellow. Four bits give sixteen steps, and you can see every one. Twenty-four bits, eight per channel, give over sixteen million colours, more than the eye can separate.</p>
       <p class="formula tab">colours = 2<sup>n</sup></p>
@@ -205,7 +247,7 @@
 <section id="quantize" class="lesson lesson--bleed">
   <div class="wrap split qhead">
     <div class="copy">
-      <div class="num" aria-hidden="true">04</div>
+      <div class="num" aria-hidden="true">06</div>
       <h2>Squeeze the jeepney</h2>
     </div>
     <div class="qhead__text">
@@ -321,7 +363,7 @@
       </div>
       <div class="link-row">
         <button type="button" class="sw" role="switch" aria-checked="true" id="snd-link" aria-describedby="snd-link-note"><span class="sw__track"><span class="sw__knob"></span></span>Link to jeepney bits</button>
-        <span class="cap small" id="snd-link-note">Synced with 04 · Squeeze the jeepney (16 colours = 4 bits)</span>
+        <span class="cap small" id="snd-link-note">Synced with 05 · Squeeze the jeepney (16 colours = 4 bits)</span>
       </div>
       <figure class="wave">
         <svg id="wave" viewBox="0 0 690 160" role="img" aria-label="Waveform at 4 bits: a staircase over the smooth original">
@@ -339,16 +381,16 @@
 <section id="check" class="lesson">
   <div class="wrap split">
     <div class="copy">
-      <div class="num" aria-hidden="true">06</div>
+      <div class="num" aria-hidden="true">07</div>
       <h2>Check yourself</h2>
-      <p class="body">Three questions, one for each big idea. A wrong answer doesn’t just say so: it sends you back to the section that explains it.</p>
+      <p class="body">Four questions, one for each big idea. A wrong answer doesn’t just say so: it sends you back to the section that explains it.</p>
       <p class="cap">Nothing is recorded or graded.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Three questions</h3><span class="lbl g1">Feedback on selection</span></div>
+      <div class="whead"><h3 class="lbl">Four questions</h3><span class="lbl g1">Feedback on selection</span></div>
       <div class="quiz-top mob-only">
-        <p class="lbl" id="quiz-count" aria-live="polite">Question 1 of 3</p>
-        <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+        <p class="lbl" id="quiz-count" aria-live="polite">Question 1 of 4</p>
+        <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
       </div>
       <div class="quiz">
         <div class="q is-current" data-link="#models" data-link-text="Revisit 02 · Same colour, five names →">
@@ -362,7 +404,7 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#depth" data-link-text="Revisit 03 · Bits decide how many colours →">
+        <div class="q" data-link="#depth" data-link-text="Revisit 04 · Bits decide how many colours →">
           <fieldset>
             <legend>2 · An 8-bit image can show at most how many colours?</legend>
             <div class="opts">
@@ -373,13 +415,24 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#quantize" data-link-text="Revisit 04 · Squeeze the jeepney →">
+        <div class="q" data-link="#quantize" data-link-text="Revisit 05 · Squeeze the jeepney →">
           <fieldset>
             <legend>3 · Dithering makes a 16-colour jeepney look smoother by…</legend>
             <div class="opts">
               <label><input type="radio" name="q3" data-fb="The palette stays at 16. Dithering only rearranges those 16 colours.">adding colours the palette doesn’t have</label>
               <label><input type="radio" name="q3" data-correct data-fb="It adds no colours: it scatters the palette so neighbouring pixels average out at a distance.">scattering palette colours so they blend at a distance</label>
               <label><input type="radio" name="q3" data-fb="Nothing is blurred. Dithering spreads each pixel’s rounding error to its neighbours.">blurring the photo before quantizing</label>
+            </div>
+          </fieldset>
+          <div class="fb" role="status"></div>
+        </div>
+        <div class="q" data-link="#schemes" data-link-text="Revisit 03 · Colours that go together →">
+          <fieldset>
+            <legend>4 · Jeepney yellow sits at hue 45°. Its complementary colour sits at…</legend>
+            <div class="opts">
+              <label><input type="radio" name="q4" data-fb="That is 30° away, a neighbour: analogous, not complementary. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">75°</span></label>
+              <label><input type="radio" name="q4" data-fb="That is 120° away, one corner of a triadic scheme. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">165°</span></label>
+              <label><input type="radio" name="q4" data-correct data-fb="Complementary means directly opposite: 45 + 180 = 225°, a blue."><span class="tab">225°</span></label>
             </div>
           </fieldset>
           <div class="fb" role="status"></div>

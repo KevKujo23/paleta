@@ -164,6 +164,51 @@
   }
   renderColour();
 
+  /* ---------- #schemes ---------- */
+  // Hue offsets in degrees from the base hue. Monochromatic keeps the hue and steps saturation instead.
+  const schemes = {
+    complementary: { name: 'Complementary', hues: [0, 180], rule: 'Two hues directly opposite each other, 180° apart. The strongest contrast the wheel can give.' },
+    analogous: { name: 'Analogous', hues: [-30, 0, 30], rule: 'Three neighbours, 30° apart. Calm and close, like the colours in a sunset.' },
+    split: { name: 'Split-complementary', hues: [0, 150, 210], rule: 'The base hue plus the two neighbours of its complement, at 150° and 210°. Contrast without the clash.' },
+    triadic: { name: 'Triadic', hues: [0, 120, 240], rule: 'Three hues spread evenly, 120° apart. Bright and balanced.' },
+    tetradic: { name: 'Tetradic', hues: [0, 60, 180, 240], rule: 'Two complementary pairs that form a rectangle on the wheel. Rich, so let one colour lead.' },
+    mono: { name: 'Monochromatic', sats: [1, 0.75, 0.5, 0.25], rule: 'One hue at falling saturation. Quiet and unified.' },
+  };
+  // Start from jeepney yellow's exact hue, saturation and lightness so the base swatch is #F2C230.
+  const [J_H, SC_S, SC_L] = L.rgbToHsl(242, 194, 48);
+  const sc = { key: 'complementary', hue: J_H };
+  const scSeg = $$('#sc-seg button');
+  function schemeColours() {
+    const s = schemes[sc.key];
+    if (s.sats) return s.sats.map((f) => ({ h: sc.hue, s: SC_S * f }));
+    return s.hues.map((d) => ({ h: (sc.hue + d + 360) % 360, s: SC_S }));
+  }
+  function renderScheme() {
+    const s = schemes[sc.key];
+    const cols = schemeColours();
+    const pts = cols.map(({ h, s: sat }) => {
+      const a = (h * Math.PI) / 180, r = 150 * (sat / 100);
+      return [150 + r * Math.sin(a), 150 - r * Math.cos(a)];
+    });
+    const shape = $('#sc-shape');
+    shape.setAttribute('points', s.sats ? `150,150 ${pts[0].join(',')}` : pts.map((p) => p.join(',')).join(' '));
+    $('#sc-dots').innerHTML = pts.map(([x, y], i) => {
+      const hex = L.rgbToHex(...L.hslToRgb(cols[i].h, cols[i].s, SC_L));
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i === 0 ? 13 : 10}" fill="${hex}"/>`;
+    }).join('');
+    $('#sc-name').textContent = s.name;
+    $('#sc-rule').textContent = s.rule;
+    $('#sc-swatches').innerHTML = cols.map(({ h, s: sat }) => {
+      const hex = L.rgbToHex(...L.hslToRgb(h, sat, SC_L));
+      const label = schemes[sc.key].sats ? `${Math.round(sat)}% sat` : `${Math.round(h)}°`;
+      return `<li><span class="sc-sw" style="background:${hex}"></span><span class="sc-hex tab">${hex}</span><span class="sc-deg tab">${label}</span></li>`;
+    }).join('');
+    $('#sc-svg').setAttribute('aria-label', `${s.name} scheme from base hue ${Math.round(sc.hue)}°: ${cols.map((c) => L.rgbToHex(...L.hslToRgb(c.h, c.s, SC_L))).join(', ')}`);
+  }
+  scSeg.forEach((b) => b.addEventListener('click', () => { sc.key = b.dataset.scheme; pressOne(scSeg, b); renderScheme(); }));
+  bindPair($('#sc-hue'), $('#sc-hue-n'), (v) => { sc.hue = v; renderScheme(); });
+  renderScheme();
+
   /* ---------- #depth ---------- */
   const strip = $('#depth-strip');
   const stripCtx = strip.getContext('2d');
@@ -502,7 +547,7 @@
     const b = L.bitsFor(q.n);
     const eq = 2 ** b === q.n ? `${q.n} colours = ${b} bits` : `${q.n} colours need ${b} bits`;
     const cap = linked && soundBits > 8 ? ' · image capped at 256 colours = 8 bits' : '';
-    $('#snd-link-note').textContent = linked ? `Synced with 04 · Squeeze the jeepney (${eq})${cap}` : 'Not linked: the image and the tone move separately.';
+    $('#snd-link-note').textContent = linked ? `Synced with 05 · Squeeze the jeepney (${eq})${cap}` : 'Not linked: the image and the tone move separately.';
   }
   linkBtn.addEventListener('click', () => {
     linked = !linked;
