@@ -5,7 +5,6 @@
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const mobile = matchMedia('(max-width: 767px)');
-  const mediaOn = $('meta[name="paleta-media"]').content === 'on';
 
   // Range + number input pair: keeps both in step, clamps typed values, reports the value.
   function bindPair(range, num, onChange) {
@@ -200,8 +199,8 @@
     before.height = after.height = h;
   }
 
-  // Stand-in until jeepney-hero.webp exists: the wireframe's colour ramp, with a left-right
-  // light falloff so there is two-dimensional detail to band and dither.
+  // Fallback if the photo can't load: a colour ramp with a left-right light falloff,
+  // so there is still two-dimensional detail to band and dither.
   function drawRamp(ctx, w, h) {
     const v = ctx.createLinearGradient(0, 0, 0, h);
     [['#2B5C9E', 0], ['#A9CBE6', 0.22], ['#F2C230', 0.4], ['#E0662B', 0.58], ['#B3262E', 0.74], ['#3B2B26', 0.88], ['#151413', 1]]
@@ -228,23 +227,22 @@
       drawRamp(bctx, w, h);
     }
     const own = q.source && q.source !== q.jeepney;
-    const standIn = !q.source;
-    $('#q-x').hidden = !standIn;
     const src = $('#q-source');
-    src.hidden = !standIn && !own;
+    src.hidden = !own;
     src.innerHTML = '';
-    const tag = document.createElement('span');
-    tag.className = 'lbl';
-    tag.textContent = own ? 'Your photo' : '[Jeepney photo]';
-    src.append(tag, own ? ` ${q.sourceName} · fitted to canvas` : ' jeepney-hero.webp · the colour ramp stands in until the photo is placed');
-    $('#q-alt').hidden = own || !heroImg.alt.startsWith('[');
+    if (own) {
+      const tag = document.createElement('span');
+      tag.className = 'lbl';
+      tag.textContent = 'Your photo';
+      src.append(tag, ` ${q.sourceName} · fitted to canvas`);
+    }
     before.setAttribute('aria-label', `Before: ${describeSource()}, original colours`);
   }
 
   function describeSource() {
-    if (!q.source) return 'colour ramp standing in for the jeepney photo';
+    if (!q.source) return 'a colour ramp';
     if (q.source !== q.jeepney) return 'your photo';
-    return heroImg.alt.startsWith('[') ? 'the jeepney photo' : heroImg.alt;
+    return 'the jeepney photo';
   }
 
   const fmtBytes = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
@@ -410,20 +408,13 @@
 
   mobile.addEventListener('change', () => { setDrawer(false, false); refreshAll(); });
 
-  // Real media only when the switch in index.html says the files exist.
-  if (mediaOn) {
-    heroImg.addEventListener('load', () => {
-      heroImg.hidden = false;
-      $('#hero-ph').hidden = true;
-      q.jeepney = heroImg;
-      if (!q.source) { q.source = heroImg; drawSource(); renderQuant(); }
-    }, { once: true });
-    heroImg.src = heroImg.dataset.src;
-    const audio = $('#demo-audio');
-    audio.src = audio.dataset.src;
-    audio.hidden = false;
-    $('#audio-ph').hidden = true;
-  }
+  // The hero photo doubles as the quantizer's source once it has loaded.
+  const useJeepney = () => {
+    q.jeepney = heroImg;
+    if (!q.source) { q.source = heroImg; drawSource(); renderQuant(); }
+  };
+  if (heroImg.complete && heroImg.naturalWidth) useJeepney();
+  else heroImg.addEventListener('load', useJeepney, { once: true });
 
   /* ---------- #hear ---------- */
   let ctx = null, osc = null, shaper = null, soundBits = 4, linked = true;

@@ -5,18 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paleta · How screens store colour</title>
 <meta name="description" content="An interactive manual on Digital Color Systems and Quantization: mix a pixel, name it four ways, cut its bits, and squeeze a jeepney down to a small palette.">
-<!-- Media switch: set to "on" once jeepney-hero.webp and crusher-demo.mp3 sit next to this file.
-     While "off" the page never requests them (no 404s) and shows marked placeholders instead. -->
-<meta name="paleta-media" content="off">
-<link rel="icon" href="data:,">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Lexend is served as one variable file covering 300/500/600; preloading it covers the 600 display weight -->
 <link rel="preload" href="https://fonts.gstatic.com/s/lexend/v26/wlpwgwvFAVdoq2_v-6QU.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Lexend:wght@300;500;600&amp;display=swap">
-<link rel="stylesheet" href="styles.css">
-<script src="lib.js" defer></script>
-<script src="app.js" defer></script>
+<link rel="preload" href="assets/images/jeepney-hero.webp" as="image" type="image/webp">
+<link rel="stylesheet" href="style.css">
+<script src="assets/js/lib.js" defer></script>
+<script src="assets/js/app.js" defer></script>
 </head>
 <body>
 <a class="skip btn" href="#pixel">Skip to the lessons</a>
@@ -48,17 +46,12 @@
 <!-- ============ #top ============ -->
 <section id="top" class="hero">
   <div class="wrap">
-    <p class="lbl g1">An interactive manual · Digital Color Systems &amp; Quantization</p>
     <h1>Every colour on your screen is a number.</h1>
     <p class="lede">Paleta takes one photo of a jeepney apart, pixel by pixel, until you can see the numbers.</p>
     <p class="hero__cta"><a href="#pixel" class="btn">Start with one pixel <span aria-hidden="true">↓</span></a></p>
     <figure class="hero__photo">
-      <div class="ph" id="hero-ph">
-        <svg class="ph__x" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/></svg>
-        <p class="ph__label"><span class="lbl">[Jeepney photo]</span> <span class="ph__file">jeepney-hero.webp</span></p>
-        <p class="tbd ph__alt">alt: [describe the jeepney photo]</p>
-      </div>
-      <img id="hero-img" data-src="jeepney-hero.webp" alt="[describe the jeepney photo]" width="1200" height="675" hidden>
+      <img id="hero-img" src="assets/images/jeepney-hero.webp" alt="A Filipino jeepney parked on a city street, painted in rainbow stripes with a blue and orange front, chrome grille, yellow fog lamps and an AMO Londelyn sign above the windshield" width="1500" height="1000" fetchpriority="high">
+      <figcaption class="cap small">Photo: Albert Balbutin Jr. / filipeanut.art, cropped and re-encoded for this page.</figcaption>
     </figure>
   </div>
 </section>
@@ -68,13 +61,13 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">01</div>
-      <p class="lbl g1 kicker">#pixel · RGB</p>
+      <p class="lbl g1 kicker">RGB</p>
       <h2>A pixel is three lights</h2>
       <p class="body">Your screen has no yellow in it. Each pixel is three tiny lights, red, green and blue, and each one’s brightness is a number from 0 to 255. Mix 242 red, 194 green and 48 blue and your eye sees jeepney yellow.</p>
       <p class="cap">Try it: set all three to 255, then all three to 0.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Widget · mix one pixel</h3><span class="lbl g1">8 bits × 3 channels = 24 bits</span></div>
+      <div class="whead"><h3 class="lbl">Mix one pixel</h3><span class="lbl g1">8 bits × 3 channels = 24 bits</span></div>
       <div class="pixel">
         <figure class="pixel__fig">
           <svg id="rgb-svg" viewBox="0 0 270 270" role="img" aria-label="Three overlapping circles of red, green and blue light">
@@ -119,17 +112,17 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">02</div>
-      <p class="lbl g1 kicker">#models · RGB · HEX · HSL · CMYK</p>
+      <p class="lbl g1 kicker">RGB · HEX · HSL · CMYK</p>
       <h2>Same colour, four names</h2>
       <p class="body">RGB, HEX, HSL and CMYK are four ways of writing down one colour. HEX is RGB in base 16. HSL says it the way people talk: which hue, how vivid, how light. CMYK is subtractive, ink on paper, so it can only approximate a colour made of light.</p>
       <p class="cap">Drag the handle on the wheel, or type into any row.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Widget · one colour, four notations</h3><span class="lbl g1">colour-wheel.svg</span></div>
+      <div class="whead"><h3 class="lbl">One colour, four notations</h3><span class="lbl g1">SVG wheel</span></div>
       <div class="models">
         <div class="models__wheel">
           <div class="wheel" id="wheel">
-            <img src="colour-wheel.svg" alt="HSL colour wheel: hue runs around the rim, saturation grows from the grey centre" width="300" height="300" draggable="false">
+            <img src="assets/images/colour-wheel.svg" alt="HSL colour wheel: hue runs around the rim, saturation grows from the grey centre" width="300" height="300" draggable="false">
             <div class="wheel__shade" id="wheel-shade"></div>
             <div class="wheel__handle" id="wheel-handle" role="slider" tabindex="0" aria-label="Hue and saturation handle" aria-valuemin="0" aria-valuemax="359" aria-valuenow="45" aria-valuetext="Hue 45°, saturation 88%" aria-describedby="wheel-help" style="background:#F2C230"></div>
           </div>
@@ -174,13 +167,13 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">03</div>
-      <p class="lbl g1 kicker">#depth · bit depth</p>
+      <p class="lbl g1 kicker">Bit depth</p>
       <h2>Bits decide how many colours</h2>
       <p class="body">Every bit you add doubles the values a pixel can hold: n bits give 2<sup>n</sup>. One bit is two values, black or yellow. Four bits give sixteen steps, and you can see every one. Twenty-four bits, eight per channel, give over sixteen million colours, more than the eye can separate.</p>
       <p class="formula tab">colours = 2<sup>n</sup></p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Widget · cut the bits</h3><span class="lbl g1">Stepper · five stops</span></div>
+      <div class="whead"><h3 class="lbl">Cut the bits</h3><span class="lbl g1">Stepper · five stops</span></div>
       <div class="seg seg--depth" role="group" aria-label="Bit depth" id="depth-seg">
         <button type="button" data-bits="1" aria-pressed="false">1-bit</button>
         <button type="button" data-bits="2" aria-pressed="false">2-bit</button>
@@ -212,7 +205,7 @@
   <div class="wrap split qhead">
     <div class="copy">
       <div class="num" aria-hidden="true">04</div>
-      <p class="lbl g1 kicker">#quantize · the main event</p>
+      <p class="lbl g1 kicker">The main event</p>
       <h2>Squeeze the jeepney</h2>
     </div>
     <div class="qhead__text">
@@ -230,13 +223,11 @@
   </div>
 
   <div class="stage" id="q-stage" data-view="after">
-    <canvas id="q-before" role="img" aria-label="Before: colour ramp standing in for the jeepney photo"></canvas>
+    <canvas id="q-before" role="img" aria-label="Before: the jeepney photo, original colours"></canvas>
     <canvas id="q-after" role="img" aria-label="After: quantized to 16 colours with median cut"></canvas>
-    <svg class="ph__x ph__x--light" id="q-x" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/></svg>
     <span class="chip chip--tl lbl" id="q-before-chip">Before · original · 24-bit</span>
     <span class="chip chip--tr lbl" id="q-after-chip">After · 16 colours · median cut</span>
-    <p class="chip chip--bl" id="q-source"><span class="lbl">[Jeepney photo]</span> jeepney-hero.webp · the colour ramp stands in until the photo is placed</p>
-    <span class="chip chip--br tbd" id="q-alt">alt: [describe the jeepney photo]</span>
+    <p class="chip chip--bl" id="q-source" hidden></p>
     <div class="divider" id="q-line" aria-hidden="true"></div>
     <span class="drag-readout tab" id="q-readout" hidden>50% original</span>
     <div class="handle" id="q-handle" role="slider" tabindex="0" aria-label="Before and after divider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50% original, 50% quantized">
@@ -288,6 +279,14 @@
       <p class="cap small mt10">Estimated size is the raw indexed pixels plus the palette, before any compression.</p>
     </div>
 
+    <figure class="png8">
+      <img src="assets/images/jeepney-256.png" alt="The same jeepney saved as a 256-colour indexed PNG: at this size it looks almost identical to the original" width="750" height="500" loading="lazy">
+      <figcaption>
+        <h3 class="lbl">A real file: jeepney-256.png</h3>
+        <p class="cap">The slider above is a live preview. This is the jeepney actually saved with a 256-colour palette (median cut, no dithering): every pixel is one 8-bit index into that palette. Saved as a 24-bit PNG the same 750 × 500 image weighs 683 KB; indexed, it is 227 KB, a third of the size, and the eye barely notices.</p>
+      </figcaption>
+    </figure>
+
     <button type="button" class="drawer-bar mob-only" id="q-drawer-btn" aria-expanded="false" aria-controls="q-controls">
       <span class="lbl">Controls</span><span class="tab" id="q-summary">16 · Median cut · Dither off</span><span aria-hidden="true">▴</span>
     </button>
@@ -299,17 +298,17 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">05</div>
-      <p class="lbl g1 kicker">#hear · sound</p>
+      <p class="lbl g1 kicker">Sound</p>
       <h2>Hear quantization</h2>
       <p class="body">Sound is quantized too. Each sample of a wave is a number, and bit depth decides how many values it can take. Cut the bits and the smooth wave becomes a staircase you can hear as fizz and grit. Link the slider to the jeepney and one number drives both.</p>
       <p class="cap">The tone never plays on its own; press Play.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Widget · crush the bits</h3><span class="lbl g1">&lt;audio&gt; + Web Audio</span></div>
+      <div class="whead"><h3 class="lbl">Crush the bits</h3><span class="lbl g1">&lt;audio&gt; + Web Audio</span></div>
       <p class="lbl">Recorded demo · native &lt;audio&gt;</p>
       <div class="audio-slot">
-        <audio id="demo-audio" controls preload="none" data-src="crusher-demo.mp3" hidden></audio>
-        <p class="ph ph--audio" id="audio-ph"><span class="lbl">[Audio]</span> crusher-demo.mp3 <span class="tbd">[added in Phase 2]</span></p>
+        <audio id="demo-audio" controls preload="none" src="assets/audio/crusher-demo.mp3">Your browser can’t play this audio. <a href="assets/audio/crusher-demo.mp3">Download crusher-demo.mp3</a>.</audio>
+        <p class="cap small">One A-major arpeggio played seven times, at 16, 8, 6, 4, 3, 2 and finally 1 bit. Listen for the hiss creeping in from 4 bits down.</p>
       </div>
       <p class="lbl mt28">Live tone · Web Audio · 440 Hz sine</p>
       <div class="tone-row">
@@ -342,13 +341,13 @@
   <div class="wrap split">
     <div class="copy">
       <div class="num" aria-hidden="true">06</div>
-      <p class="lbl g1 kicker">#check · self-test</p>
+      <p class="lbl g1 kicker">Self-test</p>
       <h2>Check yourself</h2>
       <p class="body">Three questions, one for each big idea. A wrong answer doesn’t just say so: it sends you back to the section that explains it.</p>
       <p class="cap">Nothing is recorded or graded.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Widget · three questions</h3><span class="lbl g1">Feedback on selection</span></div>
+      <div class="whead"><h3 class="lbl">Three questions</h3><span class="lbl g1">Feedback on selection</span></div>
       <div class="quiz-top mob-only">
         <p class="lbl" id="quiz-count" aria-live="polite">Question 1 of 3</p>
         <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
@@ -399,7 +398,7 @@
 <!-- ============ #spec ============ -->
 <section id="spec" class="lesson">
   <div class="wrap">
-    <p class="lbl g1">#spec · required</p>
+    <p class="lbl g1">Media audit</p>
     <h2 id="spec-title">Technical Media Spec</h2>
     <p class="body mt12">Every media file on this page: what it weighed before and after, how many colours or bits it keeps, and how it was squeezed.</p>
     <p class="lbl g1 mob-only scroll-hint">Scroll sideways →</p>
@@ -414,32 +413,32 @@
         <tbody>
           <tr>
             <td><strong>jeepney-hero.webp</strong><br><span class="cap">WebP · hero and quantizer</span></td>
-            <td><span class="tbd">[measured in Phase 2]</span><br>→ <span class="tbd">[measured in Phase 2]</span></td>
+            <td>4.3 MB raw bitmap<br>(1500 × 1000 × 3 bytes)<br>→ 190 KB WebP (q80)</td>
             <td>24-bit RGB, 8 bits per channel</td>
             <td>WebP lossy: block prediction and transform coding, then entropy coding</td>
           </tr>
           <tr>
             <td><strong>jeepney-256.png</strong><br><span class="cap">PNG-8 · quantized sample</span></td>
-            <td><span class="tbd">[measured in Phase 2]</span><br>→ <span class="tbd">[measured in Phase 2]</span></td>
+            <td>683 KB as 24-bit PNG<br>→ 227 KB as 8-bit indexed PNG</td>
             <td>8-bit indexed: 256-colour palette (median cut)</td>
             <td>PNG: DEFLATE (LZ77 + Huffman coding), lossless</td>
           </tr>
           <tr>
             <td><strong>crusher-demo.mp3</strong><br><span class="cap">MP3 · #hear demo</span></td>
-            <td><span class="tbd">[measured in Phase 2]</span><br>→ <span class="tbd">[measured in Phase 2]</span></td>
-            <td>16-bit PCM source; demo crushed to 1–16 bits</td>
+            <td>886 KB WAV (16-bit PCM, 44.1 kHz)<br>→ 121 KB MP3 (96 kbps)</td>
+            <td>16-bit PCM source, mono; the demo itself steps down from 16 to 1 bit</td>
             <td>MP3: perceptual MDCT coding + Huffman coding, lossy</td>
           </tr>
           <tr>
             <td><strong>colour-wheel.svg</strong><br><span class="cap">SVG · #models wheel</span></td>
-            <td><span class="tbd">[measured in Phase 2]</span><br>→ <span class="tbd">[measured in Phase 2]</span></td>
-            <td>Vector; colours stored as 24-bit HEX values</td>
-            <td>Plain-text XML, served with gzip (DEFLATE)</td>
+            <td>27.5 KB as written<br>→ 6.2 KB gzipped</td>
+            <td>Vector; 360 hue wedges, each a 24-bit HEX fill</td>
+            <td>Plain-text XML, compressed in transit with gzip (DEFLATE: LZ77 + Huffman)</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="cap small mt12">Sizes in brackets are placeholders, measured from the final files in Phase 2.</p>
+    <p class="cap small mt12">Sizes measured from the files in <code>assets/</code>. “Raw bitmap” is width × height × 3 bytes, what the image costs in memory before any compression.</p>
   </div>
 </section>
 
@@ -451,9 +450,12 @@
       <div class="footer__refs">
         <p class="lbl g1">References</p>
         <ol>
-          <li><span class="tbd">[Reference 1 · added in Phase 2]</span></li>
-          <li><span class="tbd">[Reference 2 · added in Phase 2]</span></li>
-          <li><span class="tbd">[Reference 3 · added in Phase 2]</span></li>
+          <li>Heckbert, P. (1982). Color image quantization for frame buffer display. <i>Computer Graphics (SIGGRAPH ’82)</i>, 16(3), 297–307.</li>
+          <li>Floyd, R. W., &amp; Steinberg, L. (1976). An adaptive algorithm for spatial greyscale. <i>Proceedings of the Society for Information Display</i>, 17(2), 75–77.</li>
+          <li>W3C. <i>CSS Color Module Level 4.</i> <a href="https://www.w3.org/TR/css-color-4/">w3.org/TR/css-color-4</a></li>
+          <li>Google. <i>WebP compression techniques.</i> <a href="https://developers.google.com/speed/webp/docs/compression">developers.google.com/speed/webp</a></li>
+          <li>MDN Web Docs. <i>Web Audio API.</i> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">developer.mozilla.org</a></li>
+          <li>Jeepney photograph: Albert Balbutin Jr., <a href="https://filipeanut.art">filipeanut.art</a>.</li>
         </ol>
       </div>
       <div class="footer__course">
