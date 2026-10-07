@@ -23,7 +23,7 @@
 html { scroll-padding-top: var(--nav-h); -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--grain) fixed, var(--bone);
+  background: var(--bone);
   color: var(--ink);
   font: 400 18px/1.5 var(--at);
   font-kerning: normal;
@@ -37,6 +37,8 @@ a { color: var(--ink); text-underline-offset: 3px; }
 a:hover { color: var(--g1); }
 sup { line-height: 0; }
 [hidden] { display: none !important; }
+/* Grain on its own fixed layer: composited once, not repainted on every scroll frame. */
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--grain); }
 
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
@@ -134,7 +136,7 @@ main { overflow-x: clip; }
 .lesson > .wrap:first-child { padding-top: var(--sec); }
 
 /* ---------- nav ---------- */
-.nav { position: sticky; top: 0; z-index: 20; background: var(--grain) fixed, var(--bone); border-bottom: 2px solid var(--g3); }
+.nav { position: sticky; top: 0; z-index: 20; background: var(--grain), var(--bone); border-bottom: 2px solid var(--g3); }
 .nav__in { height: calc(var(--nav-h) - 2px); display: flex; align-items: center; justify-content: space-between; }
 .wordmark { font: 600 24px/1 var(--lx); letter-spacing: -0.02em; text-decoration: none; }
 a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
@@ -373,16 +375,20 @@ code { font: 0.9em/1 ui-monospace, SFMono-Regular, Consolas, monospace; }
 }
 
 /* ---------- 390 (≤767) ---------- */
-@media (max-width: 767px) {
+/* Nine links stop fitting beside the wordmark below 1024px, so the menu button takes over there. */
+@media (max-width: 1023px) {
   .nav__links { display: none; }
   .nav__menu { display: inline-flex; margin-left: auto; }
-  .wordmark { font-size: 20px; }
   .nav.open .nav__links {
     display: flex; flex-direction: column; gap: 0;
     position: absolute; top: 100%; left: 0; right: 0; margin-top: 2px;
-    padding: 4px var(--margin) 12px; background: var(--grain) fixed, var(--bone); border-bottom: 1px solid var(--ink);
+    padding: 4px var(--margin) 12px; background: var(--grain), var(--bone); border-bottom: 1px solid var(--ink);
   }
   .nav.open .nav__links a { padding: 14px 0; font-size: 17px; }
+}
+
+@media (max-width: 767px) {
+  .wordmark { font-size: 20px; }
 
   .split { grid-template-columns: minmax(0, 1fr); }
   .copy, .widget, .qhead__text { grid-column: 1 / -1; }
