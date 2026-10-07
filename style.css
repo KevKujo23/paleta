@@ -194,7 +194,7 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .hero__photo figcaption { margin-top: 10px; }
 
 /* ---------- #pixel ---------- */
-.pixel { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 32px 24px; grid-template-areas: "fig sliders" "out out"; }
+.pixel { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 32px 24px; grid-template-areas: "fig sliders" "out out" "photo photo"; }
 .pixel__fig { grid-area: fig; }
 .pixel__fig svg { width: 100%; height: auto; }
 .pixel__fig figcaption { margin-top: 12px; }
@@ -203,8 +203,14 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .pixel__out { grid-area: out; display: flex; align-items: center; gap: 24px; }
 .pixel__out .cap { margin-top: 0; }
 .swatch { width: 96px; height: 96px; flex-shrink: 0; border: 1px solid var(--ink); }
+/* Real photos sit beside the simulations: subpixels in 01, halftone dots in the CMYK row of 02. */
+.pixel__photo { grid-area: photo; }
+.pixel__photo img, .halftone img { display: block; width: 100%; height: auto; border: 1px solid var(--ink); background: var(--g3); }
+.pixel__photo figcaption { margin-top: 10px; }
+.halftone { margin-top: 12px; max-width: 360px; }
+.notations .halftone figcaption { margin-top: 8px; }
 @container (max-width: 560px) {
-  .pixel { grid-template-columns: 150px minmax(0, 1fr); grid-template-areas: "fig out" "sliders sliders"; gap: 24px 20px; }
+  .pixel { grid-template-columns: 150px minmax(0, 1fr); grid-template-areas: "fig out" "sliders sliders" "photo photo"; gap: 24px 20px; }
   .pixel__fig figcaption { display: none; }
   .pixel__out { flex-direction: column; align-items: flex-start; gap: 10px; }
   .pixel__out .swatch { width: 64px; height: 64px; }
@@ -404,6 +410,7 @@ code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monos
 .footer__course { grid-column: 7 / span 3; }
 .footer__top { grid-column: 10 / span 3; display: flex; justify-content: flex-end; align-items: flex-start; }
 .footer ol { margin: 12px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.footer li { overflow-wrap: anywhere; } /* long source URLs break instead of widening the page on phones */
 .footer__course p:not(.lbl) { margin-top: 12px; }
 .footer__base { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-top: 40px; }
 /* The page closes on its name, set as large as the column allows. */

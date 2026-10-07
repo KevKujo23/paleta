@@ -128,6 +128,10 @@
             <p class="cap tab" id="px-rgb">rgb(242,194,48)</p>
           </div>
         </div>
+        <figure class="pixel__photo">
+          <img src="assets/images/subpixels-300x.webp" alt="A laptop LCD screen magnified 300 times: rows of separate red, green and blue stripes on a black grid, three stripes to each pixel." width="1280" height="640" loading="lazy">
+          <figcaption class="cap small">A real screen, 300 times closer: on this laptop panel every pixel is a red, a green and a blue stripe. Photo: Akpch, <a href="https://commons.wikimedia.org/wiki/File:TN_display_closeup_300X.jpg">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>; cropped, and shared under the same licence.</figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -180,7 +184,12 @@
               </tr>
               <tr>
                 <th scope="row" class="lbl"><label for="md-cmyk">CMYK</label></th>
-                <td><span class="approx"><span class="readout" aria-hidden="true">approx</span><input class="val" id="md-cmyk" type="text" value="0,20,80,5" spellcheck="false" autocomplete="off" aria-describedby="md-cmyk-d"></span><span class="cap small" id="md-cmyk-d">Approximate: subtractive ink, for print</span></td>
+                <td><span class="approx"><span class="readout" aria-hidden="true">approx</span><input class="val" id="md-cmyk" type="text" value="0,20,80,5" spellcheck="false" autocomplete="off" aria-describedby="md-cmyk-d"></span><span class="cap small" id="md-cmyk-d">Approximate: subtractive ink, for print</span>
+                  <figure class="halftone">
+                    <img src="assets/images/cmyk-halftone.webp" alt="A printed photo under strong magnification: overlapping cyan, magenta, yellow and black dots arranged in a rosette pattern." width="720" height="540" loading="lazy">
+                    <figcaption class="cap small">Real CMYK print under magnification: the colour is made of cyan, magenta, yellow and black dots. Photo: Psiĥedelisto, <a href="https://commons.wikimedia.org/wiki/File:CMYK_closeup.jpg">Wikimedia Commons</a>, <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</figcaption>
+                  </figure>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -561,6 +570,18 @@
             <td>WebP lossy: block prediction and transform coding, then entropy coding</td>
           </tr>
           <tr>
+            <td><strong>subpixels-300x.webp</strong><br><span class="cap">WebP · 2:1 crop, subpixel photo in 01</span></td>
+            <td>131 KB JPEG original (1280 × 1024)<br>2.3 MB raw bitmap (1280 × 640 × 3)<br>→ 28 KB WebP (q90)</td>
+            <td>24-bit RGB, 8 bits per channel</td>
+            <td>WebP lossy: block prediction and transform coding, then entropy coding</td>
+          </tr>
+          <tr>
+            <td><strong>cmyk-halftone.webp</strong><br><span class="cap">WebP · 1:1 centre crop, halftone photo in 02</span></td>
+            <td>2.0 MB JPEG original (1600 × 1200)<br>1.1 MB raw bitmap (720 × 540 × 3)<br>→ 140 KB WebP (q80)</td>
+            <td>24-bit RGB, 8 bits per channel</td>
+            <td>WebP lossy: block prediction and transform coding, then entropy coding</td>
+          </tr>
+          <tr>
             <td><strong>jeepney-256.png</strong><br><span class="cap">PNG-8 · quantized sample</span></td>
             <td>683 KB as 24-bit PNG<br>→ 227 KB as 8-bit indexed PNG</td>
             <td>8-bit indexed: 256-colour palette (median cut)</td>
@@ -600,6 +621,8 @@
           <li>MDN Web Docs. <i>Web Audio API.</i> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">developer.mozilla.org</a></li>
           <li>Jeepney photograph: Albert Balbutin Jr., <a href="https://filipeanut.art">filipeanut.art</a>.</li>
           <li>Saigon sky photograph: Kevin Lawrenze Lapuz, Ho Chi Minh City.</li>
+          <li>Subpixel photograph: Akpch, <i>TN display closeup 300X</i>, Wikimedia Commons, CC BY-SA 3.0. <a href="https://commons.wikimedia.org/wiki/File:TN_display_closeup_300X.jpg">commons.wikimedia.org/wiki/File:TN_display_closeup_300X.jpg</a></li>
+          <li>Halftone photograph: Psiĥedelisto, <i>CMYK closeup</i>, Wikimedia Commons, CC0. <a href="https://commons.wikimedia.org/wiki/File:CMYK_closeup.jpg">commons.wikimedia.org/wiki/File:CMYK_closeup.jpg</a></li>
         </ol>
       </div>
       <div class="footer__course">
