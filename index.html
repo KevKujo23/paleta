@@ -88,7 +88,7 @@
           <rect x="0" y="0" width="300" height="32" fill="url(#vis)"/>
           <line x1="180" y1="0" x2="180" y2="40" stroke="#111111" stroke-width="1.5"/>
           <text x="0" y="56" font-size="11" fill="#6B6A66">400 nm</text>
-          <text x="180" y="56" font-size="11" fill="#111111" text-anchor="middle">580 nm · yellow</text>
+          <text x="180" y="56" font-size="11" fill="#111111" text-anchor="middle">yellow, 580 nm</text>
           <text x="300" y="56" font-size="11" fill="#6B6A66" text-anchor="end">700 nm</text>
         </svg>
         <figcaption class="cap small" id="spectrum-cap">The light you can see is a narrow band of wavelengths, from about 400 nm (violet) to 700 nm (red). Real yellow light sits near 580 nm, but your screen never makes it: it mixes red and green until the cone cells in your eye respond the same way.</figcaption>
@@ -106,19 +106,19 @@
               <circle id="c-b" cx="170" cy="160" r="72" fill="rgb(0,0,48)"/>
             </g>
           </svg>
-          <figcaption class="lbl g1">Additive · light adds up</figcaption>
+          <figcaption class="lbl g1">Additive: light adds up</figcaption>
         </figure>
         <div class="pixel__sliders">
           <div class="field">
-            <label for="px-r" class="lbl">Red channel · 0-255</label>
+            <label for="px-r" class="lbl">Red channel (0-255)</label>
             <div class="pair"><input id="px-r" type="range" min="0" max="255" value="242"><input id="px-r-n" type="number" inputmode="numeric" min="0" max="255" value="242" aria-label="Red value"></div>
           </div>
           <div class="field">
-            <label for="px-g" class="lbl">Green channel · 0-255</label>
+            <label for="px-g" class="lbl">Green channel (0-255)</label>
             <div class="pair"><input id="px-g" type="range" min="0" max="255" value="194"><input id="px-g-n" type="number" inputmode="numeric" min="0" max="255" value="194" aria-label="Green value"></div>
           </div>
           <div class="field">
-            <label for="px-b" class="lbl">Blue channel · 0-255</label>
+            <label for="px-b" class="lbl">Blue channel (0-255)</label>
             <div class="pair"><input id="px-b" type="range" min="0" max="255" value="48"><input id="px-b-n" type="number" inputmode="numeric" min="0" max="255" value="48" aria-label="Blue value"></div>
           </div>
         </div>
@@ -155,7 +155,7 @@
           </div>
           <p class="cap small" id="wheel-help">Arrow keys: left and right turn the hue, up and down change saturation. Hold Shift for steps of 10.</p>
           <div class="field">
-            <label for="md-l" class="lbl">Lightness · 0-100%</label>
+            <label for="md-l" class="lbl">Lightness (0-100%)</label>
             <div class="pair"><input id="md-l" type="range" min="0" max="100" value="57"><input id="md-l-n" type="number" inputmode="numeric" min="0" max="100" value="57" aria-label="Lightness percent"></div>
           </div>
         </div>
@@ -203,7 +203,7 @@
       <p class="cap">Pick a scheme, then turn the base hue. It starts at jeepney yellow, 45°.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Build a colour scheme</h3><span class="lbl g1">Six schemes</span></div>
+      <div class="whead"><h3 class="lbl">Build a colour scheme</h3></div>
       <div class="seg seg--grid" role="group" aria-label="Colour scheme" id="sc-seg">
         <button type="button" data-scheme="complementary" aria-pressed="true">Complementary</button>
         <button type="button" data-scheme="analogous" aria-pressed="false">Analogous</button>
@@ -225,7 +225,7 @@
           <p class="cap mt8" id="sc-rule" aria-live="polite">Two hues directly opposite each other, 180° apart.</p>
           <ul class="sc-swatches" id="sc-swatches" aria-label="Colours in this scheme"></ul>
           <div class="field mt24">
-            <label for="sc-hue" class="lbl">Base hue · 0-359°</label>
+            <label for="sc-hue" class="lbl">Base hue (0-359°)</label>
             <div class="pair"><input id="sc-hue" type="range" min="0" max="359" value="45"><input id="sc-hue-n" type="number" inputmode="numeric" min="0" max="359" value="45" aria-label="Base hue in degrees"></div>
           </div>
         </div>
@@ -244,7 +244,7 @@
       <p class="formula tab">colours = 2<sup>n</sup></p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Cut the bits</h3><span class="lbl g1">Stepper · five stops</span></div>
+      <div class="whead"><h3 class="lbl">Cut the bits</h3></div>
       <div class="seg seg--depth" role="group" aria-label="Bit depth" id="depth-seg">
         <button type="button" data-bits="1" aria-pressed="false">1-bit</button>
         <button type="button" data-bits="2" aria-pressed="false">2-bit</button>
@@ -254,7 +254,7 @@
       </div>
       <p class="lbl g1 mt24">24-bit reference</p>
       <div class="strip-ref" role="img" aria-label="Smooth 24-bit strip from black to jeepney yellow"></div>
-      <p class="lbl mt24" id="depth-label">4-bit · 16 levels</p>
+      <p class="lbl mt24" id="depth-label">4-bit: 16 levels</p>
       <canvas class="strip" id="depth-strip" width="1024" height="1" role="img" aria-label="Strip banded into 16 steps from black to jeepney yellow"></canvas>
       <table class="levels tab">
         <thead><tr><th scope="col" class="lbl g1">Bits</th><th scope="col" class="lbl g1 r">Levels per channel</th><th scope="col" class="lbl g1 r">Total colours (2<sup>n</sup>)</th></tr></thead>
@@ -290,7 +290,7 @@
       </div>
       <canvas class="hist-photo" id="hist-photo" width="600" height="400" role="img" aria-label="The jeepney photo at normal exposure"></canvas>
       <canvas class="hist-graph" id="hist-graph" width="512" height="160" role="img" aria-label="Histogram"></canvas>
-      <div class="hist-axis" aria-hidden="true"><span>0 · black</span><span>shadows</span><span>midtones</span><span>highlights</span><span>255 · white</span></div>
+      <div class="hist-axis" aria-hidden="true"><span>0 (black)</span><span>shadows</span><span>midtones</span><span>highlights</span><span>255 (white)</span></div>
       <dl class="hist-stats tab" id="hist-stats">
         <div><dt class="lbl g1">Shadows</dt><dd id="hist-sh">0%</dd></div>
         <div><dt class="lbl g1">Midtones</dt><dd id="hist-mid">0%</dd></div>
@@ -317,7 +317,7 @@
       </details>
       <div class="seg mob-only q-view" role="group" aria-label="Compare before and after" id="q-view">
         <button type="button" data-view="before" aria-pressed="false">Before</button>
-        <button type="button" data-view="after" aria-pressed="true" id="q-view-after">After · 16 colours</button>
+        <button type="button" data-view="after" aria-pressed="true" id="q-view-after">After: 16 colours</button>
       </div>
     </div>
   </div>
@@ -343,7 +343,7 @@
         <button type="button" class="btn btn--sm" id="q-done">Done</button>
       </div>
       <div class="qc field">
-        <label for="q-n" class="lbl">Colours · 2-256</label>
+        <label for="q-n" class="lbl">Colours (2-256)</label>
         <div class="pair"><input id="q-n" type="range" min="2" max="256" value="16"><input id="q-n-n" type="number" inputmode="numeric" min="2" max="256" value="16" aria-label="Colour count"></div>
       </div>
       <div class="qc">
@@ -372,8 +372,8 @@
 
     <div class="qpalette">
       <div class="qpalette__head">
-        <h3 class="lbl" id="q-lut-lbl">Palette (LUT) · 16 entries</h3>
-        <p class="readout tab" id="q-stats">16 colours used · 4 bits per pixel, est. size …</p>
+        <h3 class="lbl" id="q-lut-lbl">Palette (LUT): 16 entries</h3>
+        <p class="readout tab" id="q-stats">16 colours used, 4 bits per pixel, est. size …</p>
       </div>
       <ul class="chips" id="q-chips" aria-labelledby="q-lut-lbl"></ul>
       <p class="cap small mt10">Estimated size is the raw indexed pixels plus the palette, before any compression.</p>
@@ -388,7 +388,7 @@
     </figure>
 
     <button type="button" class="drawer-bar mob-only" id="q-drawer-btn" aria-expanded="false" aria-controls="q-controls">
-      <span class="lbl">Controls</span><span class="tab" id="q-summary">16 · Median cut, dither off</span><span aria-hidden="true">▴</span>
+      <span class="lbl">Controls</span><span class="tab" id="q-summary">16, median cut, dither off</span><span aria-hidden="true">▴</span>
     </button>
   </div>
 </section>
@@ -404,7 +404,7 @@
     </div>
     <div class="widget">
       <div class="whead"><h3 class="lbl">Crush the bits</h3><span class="lbl g1">&lt;audio&gt; + Web Audio</span></div>
-      <p class="lbl">Recorded demo · native &lt;audio&gt;</p>
+      <p class="lbl">Recorded demo (native &lt;audio&gt;)</p>
       <div class="audio-slot">
         <audio id="demo-audio" controls preload="none" src="assets/audio/crusher-demo.mp3">Your browser can’t play this audio. <a href="assets/audio/crusher-demo.mp3">Download crusher-demo.mp3</a>.</audio>
         <p class="cap small">One A-major arpeggio played seven times, at 16, 8, 6, 4, 3, 2 and finally 1 bit. Listen for the hiss creeping in from 4 bits down.</p>
@@ -416,12 +416,12 @@
         <span class="cap small" id="tone-status" role="status">Stopped</span>
       </div>
       <div class="field mt28">
-        <label for="snd-bits" class="lbl">Sound bit depth · 1-16</label>
+        <label for="snd-bits" class="lbl">Sound bit depth (1-16)</label>
         <div class="pair"><input id="snd-bits" type="range" min="1" max="16" value="4"><input id="snd-bits-n" type="number" inputmode="numeric" min="1" max="16" value="4" aria-label="Sound bit depth"></div>
       </div>
       <div class="link-row">
         <button type="button" class="sw" role="switch" aria-checked="true" id="snd-link" aria-describedby="snd-link-note"><span class="sw__track"><span class="sw__knob"></span></span>Link to jeepney bits</button>
-        <span class="cap small" id="snd-link-note">Synced with 06 · Squeeze the jeepney (16 colours = 4 bits)</span>
+        <span class="cap small" id="snd-link-note">Synced with 06, Squeeze the jeepney (16 colours = 4 bits)</span>
       </div>
       <figure class="wave">
         <svg id="wave" viewBox="0 0 690 160" role="img" aria-label="Waveform at 4 bits: a staircase over the smooth original">
@@ -429,7 +429,7 @@
           <path id="wave-smooth" fill="none" stroke="#6B6A66" stroke-width="1.5"/>
           <path id="wave-steps" fill="none" stroke="#111111" stroke-width="2"/>
         </svg>
-        <figcaption class="lbl g1" id="wave-cap">4 bits · 16 levels, staircase</figcaption>
+        <figcaption class="lbl g1" id="wave-cap">4 bits: 16 levels, staircase</figcaption>
       </figure>
     </div>
   </div>
@@ -445,15 +445,15 @@
       <p class="cap">Nothing is recorded or graded.</p>
     </div>
     <div class="widget">
-      <div class="whead"><h3 class="lbl">Five questions</h3><span class="lbl g1">Feedback on selection</span></div>
+      <div class="whead"><h3 class="lbl">Five questions</h3></div>
       <div class="quiz-top mob-only">
         <p class="lbl" id="quiz-count" aria-live="polite">Question 1 of 5</p>
         <div class="quiz-bars" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span></div>
       </div>
       <div class="quiz">
-        <div class="q is-current" data-link="#models" data-link-text="Revisit 02 · Same colour, five names →">
+        <div class="q is-current" data-link="#models" data-link-text="Revisit 02: Same colour, five names →">
           <fieldset>
-            <legend>1 · #F2C230 written in RGB is…</legend>
+            <legend>1. #F2C230 written in RGB is…</legend>
             <div class="opts">
               <label><input type="radio" name="q1" data-correct data-fb="F2 = 242, C2 = 194, 30 = 48: HEX is just RGB in base 16."><span class="tab">rgb(242,194,48)</span></label>
               <label><input type="radio" name="q1" data-fb="That swaps red and green. Read the HEX in pairs: F2 = 242 red, C2 = 194 green, 30 = 48 blue."><span class="tab">rgb(194,242,48)</span></label>
@@ -462,9 +462,9 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#schemes" data-link-text="Revisit 03 · Colours that go together →">
+        <div class="q" data-link="#schemes" data-link-text="Revisit 03: Colours that go together →">
           <fieldset>
-            <legend>2 · Jeepney yellow sits at hue 45°. Its complementary colour sits at…</legend>
+            <legend>2. Jeepney yellow sits at hue 45°. Its complementary colour sits at…</legend>
             <div class="opts">
               <label><input type="radio" name="q4" data-fb="That is 30° away, a neighbour: analogous, not complementary. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">75°</span></label>
               <label><input type="radio" name="q4" data-fb="That is 120° away, one corner of a triadic scheme. Opposite means 180° away: 45 + 180 = 225°."><span class="tab">165°</span></label>
@@ -473,9 +473,9 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#depth" data-link-text="Revisit 04 · Bits decide how many colours →">
+        <div class="q" data-link="#depth" data-link-text="Revisit 04: Bits decide how many colours →">
           <fieldset>
-            <legend>3 · An 8-bit image can show at most how many colours?</legend>
+            <legend>3. An 8-bit image can show at most how many colours?</legend>
             <div class="opts">
               <label><input type="radio" name="q2" data-fb="8 bits give 2⁸ = 256 values, not 8."><span class="tab">8</span></label>
               <label><input type="radio" name="q2" data-correct data-fb="8 bits give 2⁸ = 256 values, so 256 colours."><span class="tab">256</span></label>
@@ -484,9 +484,9 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#histogram" data-link-text="Revisit 05 · Read the histogram →">
+        <div class="q" data-link="#histogram" data-link-text="Revisit 05: Read the histogram →">
           <fieldset>
-            <legend>4 · A photo’s histogram is piled up against the left edge. The photo is…</legend>
+            <legend>4. A photo’s histogram is piled up against the left edge. The photo is…</legend>
             <div class="opts">
               <label><input type="radio" name="q5" data-correct data-fb="Left is black, so a hill pushed left means most pixels are dark: underexposed.">underexposed</label>
               <label><input type="radio" name="q5" data-fb="Overexposed photos pile up on the right, near white. Left is the dark end, so this one is underexposed.">overexposed</label>
@@ -495,9 +495,9 @@
           </fieldset>
           <div class="fb" role="status"></div>
         </div>
-        <div class="q" data-link="#quantize" data-link-text="Revisit 06 · Squeeze the jeepney →">
+        <div class="q" data-link="#quantize" data-link-text="Revisit 06: Squeeze the jeepney →">
           <fieldset>
-            <legend>5 · Dithering makes a 16-colour jeepney look smoother by…</legend>
+            <legend>5. Dithering makes a 16-colour jeepney look smoother by…</legend>
             <div class="opts">
               <label><input type="radio" name="q3" data-fb="The palette stays at 16. Dithering only rearranges those 16 colours.">adding colours the palette doesn’t have</label>
               <label><input type="radio" name="q3" data-correct data-fb="It adds no colours: it scatters the palette so neighbouring pixels average out at a distance.">scattering palette colours so they blend at a distance</label>
@@ -579,8 +579,8 @@
       </div>
       <div class="footer__course">
         <p class="lbl g1">Course</p>
-        <p>Web Systems and Digital Media · Midterm<br>Option B: Digital Color Systems &amp; Quantization</p>
-        <p>Kevin Lawrenze Lapuz · IT1411L</p>
+        <p>Web Systems and Digital Media, Midterm<br>Option B: Digital Color Systems &amp; Quantization</p>
+        <p>Kevin Lawrenze Lapuz, IT1411L</p>
       </div>
       <div class="footer__top"><a href="#top" class="btn">Back to top <span aria-hidden="true">↑</span></a></div>
     </div>

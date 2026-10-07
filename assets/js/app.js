@@ -221,7 +221,7 @@
     }
     stripCtx.putImageData(img, 0, 0);
     const levels = bits >= 24 ? 'over 16 million colours' : `${2 ** bits} levels`;
-    $('#depth-label').textContent = `${bits}-bit · ${levels}`;
+    $('#depth-label').textContent = `${bits}-bit: ${levels}`;
     strip.setAttribute('aria-label', bits >= 24
       ? 'Strip from black to jeepney yellow at 24 bits: smooth, no visible bands'
       : `Strip banded into ${2 ** bits} steps from black to jeepney yellow`);
@@ -281,7 +281,7 @@
       const tag = document.createElement('span');
       tag.className = 'lbl';
       tag.textContent = 'Your photo';
-      src.append(tag, ` ${q.sourceName} · fitted to canvas`);
+      src.append(tag, `: ${q.sourceName}, fitted to canvas`);
     }
     before.setAttribute('aria-label', `Before: ${describeSource()}, original colours`);
   }
@@ -303,10 +303,10 @@
     const size = res.palette.length;
     const afterText = `After: ${size} colours, ${methodName()}${q.dither ? ', dithered' : ''}`;
     $('#q-after-chip').textContent = afterText;
-    $('#q-view-after').textContent = `After · ${size} colours`;
+    $('#q-view-after').textContent = `After: ${size} colours`;
     after.setAttribute('aria-label', `After: ${describeSource()} quantized to ${size} colours with ${methodName()}${q.dither ? ' and Floyd-Steinberg dithering' : ''}`);
 
-    $('#q-lut-lbl').textContent = `Palette (LUT) · ${size} entries`;
+    $('#q-lut-lbl').textContent = `Palette (LUT): ${size} entries`;
     const chips = $('#q-chips');
     chips.classList.toggle('chips--dense', size > 32);
     chips.replaceChildren(...res.palette.map((c) => {
@@ -325,8 +325,8 @@
     const bpp = L.bitsFor(res.used);
     const grid = res.levels ? ` (uniform grid ${res.levels.join(' × ')})` : '';
     $('#q-stats').textContent =
-      `${res.used} colours used${grid} · ${bpp} bit${bpp > 1 ? 's' : ''} per pixel, est. size ${fmtBytes(L.estimateBytes(nw, nh, res.used))} (24-bit: ${fmtBytes(nw * nh * 3)})`;
-    $('#q-summary').textContent = `${q.n} · ${q.method === 'median' ? 'Median cut' : 'Uniform'}, dither ${q.dither ? 'on' : 'off'}`;
+      `${res.used} colours used${grid}, ${bpp} bit${bpp > 1 ? 's' : ''} per pixel, est. size ${fmtBytes(L.estimateBytes(nw, nh, res.used))} (24-bit: ${fmtBytes(nw * nh * 3)})`;
+    $('#q-summary').textContent = `${q.n}, ${q.method === 'median' ? 'median cut' : 'uniform'}, dither ${q.dither ? 'on' : 'off'}`;
   }
 
   let quantQueued = false;
@@ -573,7 +573,7 @@
     gain.gain.value = 0.12;
     osc.connect(shaper).connect(gain).connect(ctx.destination);
     osc.start();
-    toneStatus.textContent = `Playing · ${soundBits} bits`;
+    toneStatus.textContent = `Playing at ${soundBits} bits`;
   });
   function stopTone() {
     if (!osc) return;
@@ -599,7 +599,7 @@
     $('#wave-smooth').setAttribute('d', smooth);
     $('#wave-steps').setAttribute('d', steps);
     const lv = (2 ** bits).toLocaleString('en');
-    $('#wave-cap').textContent = `${bits} bit${bits > 1 ? 's' : ''} · ${lv} levels, ${bits >= 12 ? 'close to smooth' : 'staircase'}`;
+    $('#wave-cap').textContent = `${bits} bit${bits > 1 ? 's' : ''}: ${lv} levels, ${bits >= 12 ? 'close to smooth' : 'staircase'}`;
     $('#wave').setAttribute('aria-label', `Waveform at ${bits} bits: ${bits >= 12 ? 'the steps are too small to see' : 'a staircase over the smooth original'}`);
   }
 
@@ -608,7 +608,7 @@
     soundBits = bits;
     soundSet(bits, false);
     drawWave(bits);
-    if (shaper) { shaper.curve = crushCurve(bits); toneStatus.textContent = `Playing · ${bits} bits`; }
+    if (shaper) { shaper.curve = crushCurve(bits); toneStatus.textContent = `Playing at ${bits} bits`; }
     if (fromSound && linked) {
       q.n = Math.min(256, 2 ** bits);
       setQuantN(q.n, false);
@@ -621,8 +621,8 @@
   function updateLinkNote() {
     const b = L.bitsFor(q.n);
     const eq = 2 ** b === q.n ? `${q.n} colours = ${b} bits` : `${q.n} colours need ${b} bits`;
-    const cap = linked && soundBits > 8 ? ' · image capped at 256 colours = 8 bits' : '';
-    $('#snd-link-note').textContent = linked ? `Synced with 06 · Squeeze the jeepney (${eq})${cap}` : 'Not linked: the image and the tone move separately.';
+    const cap = linked && soundBits > 8 ? '; the image can’t go past 8 bits' : '';
+    $('#snd-link-note').textContent = linked ? `Synced with 06, Squeeze the jeepney (${eq})${cap}` : 'Not linked: the image and the tone move separately.';
   }
   linkBtn.addEventListener('click', () => {
     linked = !linked;

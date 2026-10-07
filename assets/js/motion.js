@@ -58,8 +58,9 @@
     gsap.timeline({ scrollTrigger: { trigger: '#rgb-svg', start: 'top 75%', once: true }, defaults: { duration: 1.3, ease: 'power2.inOut' } })
       .from('#c-r', { attr: { cx: 135, cy: 30 } }, 0.2)
       .from('#c-g', { attr: { cx: 40, cy: 210 } }, 0.2)
-      .from('#c-b', { attr: { cx: 230, cy: 210 } }, 0.2)
-      .from('.spectrum rect', { scaleX: 0, transformOrigin: '0 50%', duration: 1, ease }, 0.3);
+      .from('#c-b', { attr: { cx: 230, cy: 210 } }, 0.2);
+    // Own trigger: on phones the spectrum sits above the circles, so it can't wait for them.
+    gsap.from('.spectrum rect', { scaleX: 0, transformOrigin: '0 50%', duration: 1, ease, scrollTrigger: { trigger: '.spectrum', start: 'top 80%', once: true } });
 
     /* 02 Models: the wheel turns into place. */
     gsap.from('#models .wheel', { rotation: -120, duration: 1.4, ease: 'power3.out', scrollTrigger: { trigger: '#models .wheel', start: 'top 80%', once: true } });

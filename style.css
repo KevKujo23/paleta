@@ -50,7 +50,10 @@ h2 { font: 600 clamp(28px, 3.6vw, 48px)/1.1 var(--lx); letter-spacing: -0.025em;
 h1, h2 { text-wrap: balance; }
 .body, .lede, .cap { text-wrap: pretty; }
 .num { font: 300 clamp(64px, 7vw, 112px)/1 var(--lx); letter-spacing: -0.03em; color: var(--g2); }
-.lbl { font: 600 12px/1.2 var(--lx); letter-spacing: 0.08em; text-transform: uppercase; }
+.lbl { font: 600 14px/1.3 var(--lx); letter-spacing: 0.005em; }
+/* Small caps only where they title something: widget heads, table and stat headers, footer columns. */
+h3.lbl, th.lbl, dt.lbl, .whead .lbl, .footer .lbl { font-size: 12px; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; }
+.png8 h3.lbl { font-size: 14px; letter-spacing: 0.005em; text-transform: none; }
 .body { margin-top: 16px; max-width: 66ch; }
 .cap { font-size: 15px; line-height: 1.5; letter-spacing: 0.01em; color: var(--g1); margin-top: 12px; }
 .small { font-size: 13px; }
@@ -267,7 +270,7 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 #q-after { clip-path: inset(0 0 0 50%); }
 .chip { position: absolute; z-index: 2; margin: 0; background: var(--bone); padding: 6px 10px; font-size: 13px; line-height: 1.4; max-width: calc(100% - 2 * var(--edge)); }
-.chip.lbl { font-size: 12px; }
+.chip.lbl { font-size: 13px; }
 .chip--tl { left: var(--edge); top: 24px; }
 .chip--tr { right: var(--edge); top: 24px; }
 .chip--bl { left: var(--edge); bottom: 24px; max-width: 48%; }
