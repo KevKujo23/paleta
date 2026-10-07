@@ -336,11 +336,14 @@
   <div class="wrap">
     <div class="qlab">
       <div class="qlab__btns">
+        <div class="seg q-samples" role="group" aria-label="Sample photo" id="q-samples">
+          <button type="button" data-sample="jeepney" aria-pressed="true">Jeepney</button>
+          <button type="button" data-sample="saigon" aria-pressed="false">Saigon sky</button>
+        </div>
         <button type="button" class="btn btn--sm" id="q-upload">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11 V2.5 M4.5 6 L8 2.5 L11.5 6 M2.5 10.5 V13.5 H13.5 V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg>
           Use your own photo
         </button>
-        <button type="button" class="btn btn--sm" id="q-reset" hidden>Back to the jeepney</button>
         <button type="button" class="btn btn--sm" id="q-download">
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5 V11 M4.5 7.5 L8 11 L11.5 7.5 M2.5 10.5 V13.5 H13.5 V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg>
           Download PNG
@@ -348,6 +351,7 @@
         <input type="file" id="q-file" accept="image/jpeg,image/png,image/webp" hidden>
       </div>
       <p class="cap small">JPG, PNG or WebP, chosen or dropped on the image. It never leaves your browser.</p>
+      <p class="cap small q-credit" id="q-sample-cap" hidden>Photo: Kevin Lawrenze Lapuz, Ho Chi Minh City. At 8 colours the sky breaks into bands and the city loses nearly all of its colour.</p>
       <p class="cap small q-msg" id="q-msg" role="status"></p>
     </div>
 
@@ -541,6 +545,12 @@
             <td>WebP lossy: block prediction and transform coding, then entropy coding</td>
           </tr>
           <tr>
+            <td><strong>saigon-sky.webp</strong><br><span class="cap">WebP · 3:2 crop, banding sample in 06</span></td>
+            <td>1.8 MB JPEG original (1932 × 2576)<br>4.3 MB raw bitmap (1500 × 1000 × 3)<br>→ 189 KB WebP (q80)</td>
+            <td>24-bit RGB, 8 bits per channel</td>
+            <td>WebP lossy: block prediction and transform coding, then entropy coding</td>
+          </tr>
+          <tr>
             <td><strong>jeepney-256.png</strong><br><span class="cap">PNG-8 · quantized sample</span></td>
             <td>683 KB as 24-bit PNG<br>→ 227 KB as 8-bit indexed PNG</td>
             <td>8-bit indexed: 256-colour palette (median cut)</td>
@@ -579,6 +589,7 @@
           <li>Google. <i>WebP compression techniques.</i> <a href="https://developers.google.com/speed/webp/docs/compression">developers.google.com/speed/webp</a></li>
           <li>MDN Web Docs. <i>Web Audio API.</i> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API">developer.mozilla.org</a></li>
           <li>Jeepney photograph: Albert Balbutin Jr., <a href="https://filipeanut.art">filipeanut.art</a>.</li>
+          <li>Saigon sky photograph: Kevin Lawrenze Lapuz, Ho Chi Minh City.</li>
         </ol>
       </div>
       <div class="footer__course">

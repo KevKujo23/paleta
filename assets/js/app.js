@@ -232,7 +232,12 @@
   drawDepth(4);
 
   /* ---------- #quantize ---------- */
-  const q = { n: 16, method: 'median', dither: false, split: 50, view: 'after', source: null, sourceName: '', sourceInfo: '', jeepney: null, rect: [0, 0, 0, 0] };
+  const q = { n: 16, method: 'median', dither: false, split: 50, view: 'after', source: null, sourceName: '', sourceInfo: '', sample: 'jeepney', rect: [0, 0, 0, 0] };
+  // Built-in photos. q.sample names the one on show; it is empty while a visitor's own photo is loaded.
+  const samples = {
+    jeepney: { label: 'the jeepney photo', file: 'jeepney', img: null },
+    saigon: { label: 'the Saigon sky photo', file: 'saigon-sky', img: null, src: 'assets/images/saigon-sky.webp', data: 'assets/js/saigon-data.js', key: 'PALETA_SAIGON' },
+  };
   const stage = $('#q-stage');
   const before = $('#q-before'), after = $('#q-after');
   const bctx = before.getContext('2d', { willReadFrequently: true });
@@ -282,7 +287,8 @@
       q.rect = [0, 0, w, h];
       drawRamp(bctx, w, h);
     }
-    const own = q.source && q.source !== q.jeepney;
+    const own = q.source && !q.sample;
+    $('#q-sample-cap').hidden = q.sample !== 'saigon';
     const src = $('#q-source');
     src.hidden = !own;
     src.innerHTML = '';
@@ -297,8 +303,7 @@
 
   function describeSource() {
     if (!q.source) return 'a colour ramp';
-    if (q.source !== q.jeepney) return 'your photo';
-    return 'the jeepney photo';
+    return q.sample ? samples[q.sample].label : 'your photo';
   }
 
   const fmtBytes = (b) => (b >= 1048576 ? `${(b / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
@@ -421,7 +426,8 @@
   // are scaled down once on arrival, so every redraw after that stays quick.
   const MAX_EDGE = 2048;
   const TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-  const fileInput = $('#q-file'), uploadBtn = $('#q-upload'), resetBtn = $('#q-reset'), dlBtn = $('#q-download'), qMsg = $('#q-msg');
+  const fileInput = $('#q-file'), uploadBtn = $('#q-upload'), dlBtn = $('#q-download'), qMsg = $('#q-msg');
+  const sampleBtns = $$('#q-samples button');
   const say = (text) => { qMsg.textContent = text; };
 
   // The quantizer and the histogram in 05 both follow whichever photo is loaded.
@@ -450,7 +456,8 @@
     bmp.close();
     q.source = c;
     q.sourceName = file.name;
-    resetBtn.hidden = false;
+    q.sample = '';
+    pressOne(sampleBtns, null);
     say('');
     sourceChanged();
   }
@@ -460,14 +467,21 @@
     fileInput.value = '';
     loadPhoto(file);
   });
-  resetBtn.addEventListener('click', () => {
-    q.source = q.jeepney;
+  // Sample buttons: the jeepney, or the Saigon sky, whose smooth gradient shows banding the busy jeepney hides.
+  async function useSample(key) {
+    const sm = samples[key];
+    if (!sm.img && sm.src) {
+      say('Loading the sample photo…');
+      try { sm.img = await readableImage(sm.src, sm.data, sm.key); } catch (e) { say('Couldn’t load that sample photo.'); return; }
+    }
+    q.sample = key;
+    q.source = sm.img; // the jeepney may still be loading; setJeepney fills it in
     q.sourceName = q.sourceInfo = '';
-    resetBtn.hidden = true;
-    uploadBtn.focus();
+    pressOne(sampleBtns, sampleBtns.find((b) => b.dataset.sample === key));
     say('');
     sourceChanged();
-  });
+  }
+  sampleBtns.forEach((b) => b.addEventListener('click', () => useSample(b.dataset.sample)));
 
   // Drop a photo anywhere on 06. Dropped anywhere else it is ignored, instead of the browser leaving the page to show it.
   const qSection = $('#quantize');
@@ -513,7 +527,7 @@
           cx.putImageData(new ImageData(res.data, c.width, c.height), 0, 0);
           blob = await new Promise((done) => c.toBlob(done, 'image/png'));
         }
-        const base = q.source && q.source !== q.jeepney ? q.sourceName.replace(/\.[^.]+$/, '') : 'jeepney';
+        const base = q.sample ? samples[q.sample].file : q.sourceName.replace(/\.[^.]+$/, '');
         const name = `${base}-${res.palette.length}-colours.png`;
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -554,25 +568,37 @@
     x.drawImage(img, 0, 0, 1, 1);
     try { x.getImageData(0, 0, 1, 1); return true; } catch (e) { return false; }
   };
+  // Opened straight from a folder: the browser won't let a canvas read image files, but it will
+  // read an embedded copy. dataScript sets window[key] to that copy as a data: URL.
+  const embeddedImage = (dataScript, key) => new Promise((done, fail) => {
+    const s = document.createElement('script');
+    s.src = dataScript;
+    s.onload = () => {
+      const img = new Image();
+      img.onload = () => (readable(img) ? done(img) : fail());
+      img.onerror = fail;
+      img.src = window[key];
+    };
+    s.onerror = fail;
+    document.head.append(s);
+  });
+  // An image the canvas can read: the file itself on the live site, its embedded copy from disk.
+  const readableImage = (src, dataScript, key) => new Promise((done, fail) => {
+    const img = new Image();
+    img.onload = () => (readable(img) ? done(img) : embeddedImage(dataScript, key).then(done, fail));
+    img.onerror = () => embeddedImage(dataScript, key).then(done, fail);
+    img.src = src;
+  });
   // Sections that draw the jeepney (quantizer, histogram) wait for a photo the canvas can read.
   const jeepneyReady = [];
   const setJeepney = (img) => {
-    q.jeepney = img;
-    if (!q.source) { q.source = img; drawSource(); renderQuant(); }
+    samples.jeepney.img = img;
+    if (q.sample === 'jeepney') { q.source = img; drawSource(); renderQuant(); }
     jeepneyReady.forEach((fn) => fn());
   };
   const useJeepney = () => {
     if (readable(heroImg)) { setJeepney(heroImg); return; }
-    // Opened straight from a folder: the browser won't let a canvas read image files, but it will
-    // read an embedded copy. Load that copy instead, so the jeepney still appears.
-    const s = document.createElement('script');
-    s.src = 'assets/js/jeepney-data.js';
-    s.onload = () => {
-      const img = new Image();
-      img.onload = () => { if (readable(img)) setJeepney(img); };
-      img.src = window.PALETA_JEEPNEY;
-    };
-    document.head.append(s);
+    embeddedImage('assets/js/jeepney-data.js', 'PALETA_JEEPNEY').then(setJeepney, () => {});
   };
   if (heroImg.complete && heroImg.naturalWidth) useJeepney();
   else heroImg.addEventListener('load', useJeepney, { once: true });
@@ -638,7 +664,7 @@
   histSeg.forEach((b) => b.addEventListener('click', () => { hist.exp = b.dataset.exp; pressOne(histSeg, b); renderHist(); }));
   renderHist();
   jeepneyReady.push(() => { hist.base = null; renderHist(); });
-  if (q.jeepney) { hist.base = null; renderHist(); }
+  if (samples.jeepney.img) { hist.base = null; renderHist(); }
 
   /* ---------- #hear ---------- */
   let ctx = null, osc = null, shaper = null, soundBits = 4, linked = true;

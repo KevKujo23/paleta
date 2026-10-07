@@ -325,7 +325,9 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .qlab { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 24px; }
 .qlab__btns { display: flex; flex-wrap: wrap; gap: 12px; }
 .qlab .cap { flex: 1 1 20rem; margin: 0; }
-.q-msg { flex-basis: 100%; color: var(--ink); }
+.q-msg, .q-credit { flex-basis: 100%; }
+.q-msg { color: var(--ink); }
+.q-samples button { flex: 0 0 auto; padding: 0 16px; }
 .q-msg:empty { display: none; }
 /* While a photo is dragged over 06, the stage says where to let go. */
 .stage.is-drop::after {
@@ -337,7 +339,7 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .drawer__head { display: none; }
 
 .qpalette { margin-top: 32px; }
-.png8 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; margin-top: 40px; }
+.png8 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 32px; align-items: start; margin-top: 40px; }
 .png8 img { display: block; width: 100%; height: auto; }
 @media (max-width: 767px) { .png8 { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; } }
 code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
@@ -391,8 +393,8 @@ code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monos
 /* ---------- footer ---------- */
 .footer .wrap { border-top: 1px solid var(--ink); padding: 40px 0 32px; }
 .footer__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 28px; font-size: var(--fs-md); }
-.footer__refs { grid-column: 1 / span 5; }
-.footer__course { grid-column: 6 / span 4; }
+.footer__refs { grid-column: 1 / span 6; }
+.footer__course { grid-column: 7 / span 3; }
 .footer__top { grid-column: 10 / span 3; display: flex; justify-content: flex-end; align-items: flex-start; }
 .footer ol { margin: 12px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
 .footer__course p:not(.lbl) { margin-top: 12px; }
@@ -489,6 +491,8 @@ code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monos
   .drawer__head { display: grid; grid-template-columns: 1fr auto; align-items: center; row-gap: 8px; }
   .drawer__grip { grid-column: 1 / -1; justify-self: center; width: 40px; height: 4px; border-radius: 2px; background: var(--g2); }
   .qlab__btns .btn { flex: 1 1 auto; justify-content: center; }
+  .q-samples { flex: 1 1 100%; }
+  .q-samples button { flex: 1 1 0; }
 
   .quiz .q { display: none; border-top: 0; padding-top: 0; }
   .quiz .q.is-current { display: block; }
