@@ -289,6 +289,13 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .qhead__text { grid-column: 1 / span 8; margin-top: 24px; }
 .qhead__text > * { max-width: 65ch; }
 .qhead__text .body { margin-top: 0; }
+/* 06 opens with the worked example: 24 shades snap to a 4-colour palette, redrawn without and with dithering. */
+.qdiagram { margin-top: 32px; max-width: 640px; }
+.qdiagram svg { display: block; width: 100%; height: auto; margin-top: 8px; overflow: visible; }
+.qdiagram .lbl { margin-top: 20px; }
+.qdiagram .lbl:first-child { margin-top: 0; }
+.qdiagram .cap { margin-top: 12px; }
+.qdiagram__hex { list-style: none; margin: 6px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); text-align: center; font-size: var(--fs-xs); color: var(--g1); }
 .mob-only { display: none; }
 
 .stage {
