@@ -242,9 +242,49 @@
     return Math.ceil((w * h * bitsFor(colours)) / 8) + colours * 3;
   }
 
+  // PNG with a palette (colour type 3): the LUT goes in PLTE and every pixel is one byte pointing into it,
+  // the same kind of file as jeepney-256.png. rgba must only hold colours from the palette.
+  const crcTable = Array.from({ length: 256 }, (_, n) => {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+    return c >>> 0;
+  });
+  function crc32(bytes) {
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < bytes.length; i++) c = crcTable[(c ^ bytes[i]) & 255] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  function pngChunk(type, data) {
+    const out = new Uint8Array(12 + data.length), v = new DataView(out.buffer);
+    v.setUint32(0, data.length);
+    for (let i = 0; i < 4; i++) out[4 + i] = type.charCodeAt(i);
+    out.set(data, 8);
+    v.setUint32(8 + data.length, crc32(out.subarray(4, 8 + data.length)));
+    return out;
+  }
+  async function encodeIndexedPng(rgba, palette, w, h) {
+    const index = new Map(palette.map((c, i) => [(c[0] << 16) | (c[1] << 8) | c[2], i]));
+    const rows = new Uint8Array((w + 1) * h); // each row starts with filter byte 0 (none)
+    for (let y = 0, p = 0; y < h; y++) {
+      const r = y * (w + 1) + 1;
+      for (let x = 0; x < w; x++, p += 4) rows[r + x] = index.get((rgba[p] << 16) | (rgba[p + 1] << 8) | rgba[p + 2]);
+    }
+    const idat = new Uint8Array(await new Response(new Blob([rows]).stream().pipeThrough(new CompressionStream('deflate'))).arrayBuffer());
+    const ihdr = new Uint8Array(13), hv = new DataView(ihdr.buffer);
+    hv.setUint32(0, w);
+    hv.setUint32(4, h);
+    ihdr.set([8, 3, 0, 0, 0], 8); // 8-bit indices, colour type 3 (palette)
+    const plte = new Uint8Array(palette.length * 3);
+    palette.forEach((c, i) => plte.set(c, i * 3));
+    return new Blob([
+      new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]),
+      pngChunk('IHDR', ihdr), pngChunk('PLTE', plte), pngChunk('IDAT', idat), pngChunk('IEND', new Uint8Array(0)),
+    ], { type: 'image/png' });
+  }
+
   const api = {
     clamp, rgbToHex, hexToRgb, rgbToHsl, hslToRgb, hslToHsv, hsvToHsl, rgbToCmyk, cmykToRgb,
-    depthColour, crush, uniformLevels, medianCut, quantize, bitsFor, estimateBytes,
+    depthColour, crush, uniformLevels, medianCut, quantize, bitsFor, estimateBytes, encodeIndexedPng,
   };
   root.PaletaLib = api;
   if (typeof module === 'object' && module.exports) module.exports = api;

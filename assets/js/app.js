@@ -232,7 +232,7 @@
   drawDepth(4);
 
   /* ---------- #quantize ---------- */
-  const q = { n: 16, method: 'median', dither: false, split: 50, view: 'after', source: null, sourceName: '', jeepney: null };
+  const q = { n: 16, method: 'median', dither: false, split: 50, view: 'after', source: null, sourceName: '', sourceInfo: '', jeepney: null, rect: [0, 0, 0, 0] };
   const stage = $('#q-stage');
   const before = $('#q-before'), after = $('#q-after');
   const bctx = before.getContext('2d', { willReadFrequently: true });
@@ -262,15 +262,24 @@
     ctx.fillRect(0, 0, w, h);
   }
 
+  // A source is an <img> (the jeepney) or a <canvas> (a loaded photo); both draw the same way.
+  const dims = (src) => [src.naturalWidth || src.width, src.naturalHeight || src.height];
+  // Where the whole photo fits inside a w × h canvas. The jeepney is 3:2 like every canvas here, so it fills it.
+  function fitRect(src, w, h) {
+    const [iw, ih] = dims(src);
+    const s = Math.min(w / iw, h / ih);
+    const dw = Math.max(1, Math.round(iw * s)), dh = Math.max(1, Math.round(ih * s));
+    return [Math.round((w - dw) / 2), Math.round((h - dh) / 2), dw, dh];
+  }
+
   function drawSource() {
     const { width: w, height: h } = before;
     bctx.clearRect(0, 0, w, h);
     if (q.source) {
-      const img = q.source;
-      const s = Math.max(w / img.naturalWidth, h / img.naturalHeight);
-      const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
-      bctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
+      q.rect = fitRect(q.source, w, h);
+      bctx.drawImage(q.source, ...q.rect);
     } else {
+      q.rect = [0, 0, w, h];
       drawRamp(bctx, w, h);
     }
     const own = q.source && q.source !== q.jeepney;
@@ -281,7 +290,7 @@
       const tag = document.createElement('span');
       tag.className = 'lbl';
       tag.textContent = 'Your photo';
-      src.append(tag, `: ${q.sourceName}, fitted to canvas`);
+      src.append(tag, `: ${q.sourceName} (${q.sourceInfo})`);
     }
     before.setAttribute('aria-label', `Before: ${describeSource()}, original colours`);
   }
@@ -297,8 +306,10 @@
 
   function renderQuant() {
     const { width: w, height: h } = before;
-    const res = L.quantize(bctx.getImageData(0, 0, w, h), q.n, q.method, q.dither);
-    actx2.putImageData(new ImageData(res.data, w, h), 0, 0);
+    const [x, y, rw, rh] = q.rect;
+    const res = L.quantize(bctx.getImageData(x, y, rw, rh), q.n, q.method, q.dither);
+    actx2.clearRect(0, 0, w, h);
+    actx2.putImageData(new ImageData(res.data, rw, rh), x, y);
 
     const size = res.palette.length;
     const afterText = `After: ${size} colours, ${methodName()}${q.dither ? ', dithered' : ''}`;
@@ -321,7 +332,7 @@
       return li;
     }));
 
-    const [nw, nh] = q.source ? [q.source.naturalWidth, q.source.naturalHeight] : [w, h];
+    const [nw, nh] = q.source ? dims(q.source) : [w, h];
     const bpp = L.bitsFor(res.used);
     const grid = res.levels ? ` (uniform grid ${res.levels.join(' × ')})` : '';
     $('#q-stats').textContent =
@@ -405,43 +416,118 @@
     queueQuant();
   });
 
-  // Own photo: read locally through a blob: URL and drawn to canvas. Nothing leaves the browser.
-  const fileInput = $('#q-file'), uploadBtn = $('#q-upload'), resetBtn = $('#q-reset'), qErr = $('#q-err');
+  // Own photo: decoded in the browser by createImageBitmap, which a canvas can always read back,
+  // even on a page opened from disk. Nothing is uploaded. Photos larger than MAX_EDGE on their long side
+  // are scaled down once on arrival, so every redraw after that stays quick.
+  const MAX_EDGE = 2048;
+  const TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  const fileInput = $('#q-file'), uploadBtn = $('#q-upload'), resetBtn = $('#q-reset'), dlBtn = $('#q-download'), qMsg = $('#q-msg');
+  const say = (text) => { qMsg.textContent = text; };
+
+  // The quantizer and the histogram in 05 both follow whichever photo is loaded.
+  function sourceChanged() {
+    drawSource();
+    renderQuant();
+    hist.base = null;
+    renderHist();
+  }
+
+  async function loadPhoto(file) {
+    if (!file) return;
+    if (!TYPES.includes(file.type)) { say(`Paleta opens JPG, PNG and WebP photos. ${file.name} isn’t one of those.`); return; }
+    say(`Opening ${file.name}…`);
+    let bmp;
+    try { bmp = await createImageBitmap(file); } catch (e) {
+      say(`Couldn’t read ${file.name}. It may be damaged or too large; try another JPG, PNG or WebP.`);
+      return;
+    }
+    const s = Math.min(1, MAX_EDGE / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(bmp.width * s));
+    c.height = Math.max(1, Math.round(bmp.height * s));
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    q.sourceInfo = s < 1 ? `${bmp.width} × ${bmp.height}, scaled to ${c.width} × ${c.height}` : `${c.width} × ${c.height}`;
+    bmp.close();
+    q.source = c;
+    q.sourceName = file.name;
+    resetBtn.hidden = false;
+    say('');
+    sourceChanged();
+  }
   uploadBtn.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', () => {
     const file = fileInput.files[0];
     fileInput.value = '';
-    if (!file) return;
-    if (!file.type.startsWith('image/')) { qErr.textContent = 'That file isn’t an image. Try a JPG, PNG or WebP.'; return; }
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      if (!readable(img)) { qErr.textContent = 'This browser blocks reading photos on a page opened as a local file. Use the live site.'; return; }
-      qErr.textContent = '';
-      q.source = img;
-      q.sourceName = file.name;
-      uploadBtn.hidden = true;
-      resetBtn.hidden = false;
-      resetBtn.focus();
-      $('#q-stats').textContent = 'Extracting from your photo…';
-      setTimeout(() => { drawSource(); renderQuant(); });
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      qErr.textContent = 'Couldn’t open that image. Try a JPG, PNG or WebP.';
-    };
-    img.src = url;
+    loadPhoto(file);
   });
   resetBtn.addEventListener('click', () => {
     q.source = q.jeepney;
-    q.sourceName = '';
-    qErr.textContent = '';
+    q.sourceName = q.sourceInfo = '';
     resetBtn.hidden = true;
-    uploadBtn.hidden = false;
     uploadBtn.focus();
-    drawSource();
-    renderQuant();
+    say('');
+    sourceChanged();
+  });
+
+  // Drop a photo anywhere on 06. Dropped anywhere else it is ignored, instead of the browser leaving the page to show it.
+  const qSection = $('#quantize');
+  const carriesFiles = (e) => !!e.dataTransfer && [...e.dataTransfer.types].includes('Files');
+  qSection.addEventListener('dragover', (e) => {
+    if (!carriesFiles(e)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    stage.classList.add('is-drop');
+  });
+  qSection.addEventListener('dragleave', (e) => { if (!qSection.contains(e.relatedTarget)) stage.classList.remove('is-drop'); });
+  qSection.addEventListener('drop', (e) => {
+    if (!carriesFiles(e)) return;
+    e.preventDefault();
+    stage.classList.remove('is-drop');
+    loadPhoto(e.dataTransfer.files[0]);
+  });
+  addEventListener('dragover', (e) => {
+    if (!carriesFiles(e) || qSection.contains(e.target)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'none';
+  });
+  addEventListener('drop', (e) => { if (carriesFiles(e)) e.preventDefault(); });
+
+  // Download: the whole photo (up to MAX_EDGE), quantized with the current settings and saved as an indexed PNG.
+  dlBtn.addEventListener('click', () => {
+    dlBtn.disabled = true;
+    say('Making the PNG…');
+    setTimeout(async () => {
+      try {
+        const src = q.source || before;
+        const [w, h] = dims(src);
+        const s = Math.min(1, MAX_EDGE / Math.max(w, h));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w * s));
+        c.height = Math.max(1, Math.round(h * s));
+        const cx = c.getContext('2d', { willReadFrequently: true });
+        cx.drawImage(src, 0, 0, c.width, c.height);
+        const res = L.quantize(cx.getImageData(0, 0, c.width, c.height), q.n, q.method, q.dither);
+        let blob;
+        if (typeof CompressionStream === 'function') blob = await L.encodeIndexedPng(res.data, res.palette, c.width, c.height);
+        else {
+          cx.putImageData(new ImageData(res.data, c.width, c.height), 0, 0);
+          blob = await new Promise((done) => c.toBlob(done, 'image/png'));
+        }
+        const base = q.source && q.source !== q.jeepney ? q.sourceName.replace(/\.[^.]+$/, '') : 'jeepney';
+        const name = `${base}-${res.palette.length}-colours.png`;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.append(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+        say(`Saved ${name}: ${c.width} × ${c.height}, ${res.palette.length} colours, ${fmtBytes(blob.size)}.`);
+      } catch (e) {
+        say('Couldn’t make the PNG in this browser.');
+      }
+      dlBtn.disabled = false;
+    });
   });
 
   // Mobile: controls sit in a bottom drawer.
@@ -499,20 +585,21 @@
     over: { name: 'overexposed', f: (v) => 255 - (255 - v) * 0.35, read: 'The hill is squeezed to the right: low contrast, no real shadows, and the brightest parts turn flat white.' },
     contrast: { name: 'high contrast', f: (v) => L.clamp((v - 128) * 2.4 + 128, 0, 255), read: 'Pixels pile up at both ends with a hollow middle: deep blacks and blown-out whites, few midtones.' },
   };
-  const hist = { exp: 'normal', base: null };
+  const hist = { exp: 'normal', base: null, rect: [0, 0, 0, 0] };
   const hPhoto = $('#hist-photo'), hpCtx = hPhoto.getContext('2d', { willReadFrequently: true });
   const hGraph = $('#hist-graph'), hgCtx = hGraph.getContext('2d');
   const histSeg = $$('#hist-seg button');
   function histBase() {
     const { width: w, height: h } = hPhoto;
-    if (q.jeepney) {
-      const img = q.jeepney;
-      const sc = Math.max(w / img.naturalWidth, h / img.naturalHeight);
-      hpCtx.drawImage(img, (w - img.naturalWidth * sc) / 2, (h - img.naturalHeight * sc) / 2, img.naturalWidth * sc, img.naturalHeight * sc);
+    hpCtx.clearRect(0, 0, w, h);
+    if (q.source) {
+      hist.rect = fitRect(q.source, w, h);
+      hpCtx.drawImage(q.source, ...hist.rect);
     } else {
+      hist.rect = [0, 0, w, h];
       drawRamp(hpCtx, w, h);
     }
-    hist.base = hpCtx.getImageData(0, 0, w, h);
+    hist.base = hpCtx.getImageData(...hist.rect);
   }
   function renderHist() {
     if (!hist.base) histBase();
@@ -526,7 +613,7 @@
       d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255;
       bins[Math.round(0.299 * r + 0.587 * g + 0.114 * b)]++;
     }
-    hpCtx.putImageData(out, 0, 0);
+    hpCtx.putImageData(out, hist.rect[0], hist.rect[1]);
     // Bars scaled to the 99th-percentile bin so one clipped spike at 0 or 255 doesn't flatten the rest.
     const sorted = [...bins].sort((x, y) => x - y);
     const top = Math.max(1, sorted[253]);
@@ -544,7 +631,8 @@
     $('#hist-mid').textContent = `${mid}%`;
     $('#hist-hi').textContent = `${hi}%`;
     $('#hist-read').textContent = e.read;
-    hPhoto.setAttribute('aria-label', `The jeepney photo, ${e.name}`);
+    const what = describeSource();
+    hPhoto.setAttribute('aria-label', `${what[0].toUpperCase()}${what.slice(1)}, ${e.name}`);
     hGraph.setAttribute('aria-label', `Histogram, ${e.name}: ${sh}% of pixels in the shadows, ${mid}% in the midtones, ${hi}% in the highlights`);
   }
   histSeg.forEach((b) => b.addEventListener('click', () => { hist.exp = b.dataset.exp; pressOne(histSeg, b); renderHist(); }));

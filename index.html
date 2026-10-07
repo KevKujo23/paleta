@@ -58,7 +58,7 @@
   <div class="wrap">
     <h1>Every colour <span class="h1-pill" aria-hidden="true"></span> on your screen is a number.</h1>
     <p class="lede">Paleta takes one photo of a jeepney apart, pixel by pixel, until you can see the numbers.</p>
-    <p class="hero__cta"><a href="#pixel" class="btn">Start with one pixel <span aria-hidden="true">↓</span></a></p>
+    <p class="hero__cta"><a href="#quantize" class="btn">Quantize your own photo <span aria-hidden="true">↓</span></a></p>
     <figure class="hero__photo">
       <div class="frame">
       <img id="hero-img" src="assets/images/jeepney-hero.webp" alt="A Filipino jeepney parked on a city street, painted in rainbow stripes with a blue and orange front, chrome grille, yellow fog lamps and an AMO Londelyn sign above the windshield" width="1500" height="1000" fetchpriority="high">
@@ -334,6 +334,23 @@
   </div>
 
   <div class="wrap">
+    <div class="qlab">
+      <div class="qlab__btns">
+        <button type="button" class="btn btn--sm" id="q-upload">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11 V2.5 M4.5 6 L8 2.5 L11.5 6 M2.5 10.5 V13.5 H13.5 V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg>
+          Use your own photo
+        </button>
+        <button type="button" class="btn btn--sm" id="q-reset" hidden>Back to the jeepney</button>
+        <button type="button" class="btn btn--sm" id="q-download">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5 V11 M4.5 7.5 L8 11 L11.5 7.5 M2.5 10.5 V13.5 H13.5 V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg>
+          Download PNG
+        </button>
+        <input type="file" id="q-file" accept="image/jpeg,image/png,image/webp" hidden>
+      </div>
+      <p class="cap small">JPG, PNG or WebP, chosen or dropped on the image. It never leaves your browser.</p>
+      <p class="cap small q-msg" id="q-msg" role="status"></p>
+    </div>
+
     <div class="qcontrols" id="q-controls" role="region" aria-label="Quantizer controls">
       <div class="drawer__head">
         <span class="drawer__grip" aria-hidden="true"></span>
@@ -354,17 +371,6 @@
       <div class="qc">
         <p class="lbl">Dithering</p>
         <button type="button" class="sw" role="switch" aria-checked="false" id="q-dither"><span class="sw__track"><span class="sw__knob"></span></span>Floyd-Steinberg</button>
-      </div>
-      <div class="qc">
-        <p class="lbl">Your photo</p>
-        <button type="button" class="btn btn--sm" id="q-upload">
-          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 11 V2.5 M4.5 6 L8 2.5 L11.5 6 M2.5 10.5 V13.5 H13.5 V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" fill="none"/></svg>
-          Use your own photo
-        </button>
-        <button type="button" class="btn btn--sm" id="q-reset" hidden>Back to the jeepney</button>
-        <input type="file" id="q-file" accept="image/*" hidden>
-        <p class="cap small mt8">Processed in your browser, never uploaded.</p>
-        <p class="cap small q-err" id="q-err" role="status"></p>
       </div>
     </div>
 

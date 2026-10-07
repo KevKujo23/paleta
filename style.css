@@ -318,11 +318,22 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
   font: 700 var(--fs-sm)/1.2 var(--at-tab); font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
 }
 
-.qcontrols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px var(--gutter); margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--ink); }
+.qcontrols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px var(--gutter); margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--ink); }
 .qcontrols .lbl + .seg, .qcontrols .lbl + .sw, .qcontrols .lbl + .btn { margin-top: 8px; }
 .qcontrols .pair { height: 44px; }
 .qc .cap { margin-top: 8px; }
-.q-err:empty { display: none; }
+.qlab { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 24px; }
+.qlab__btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.qlab .cap { flex: 1 1 20rem; margin: 0; }
+.q-msg { flex-basis: 100%; color: var(--ink); }
+.q-msg:empty { display: none; }
+/* While a photo is dragged over 06, the stage says where to let go. */
+.stage.is-drop::after {
+  content: "Drop the photo to quantize it"; position: absolute; inset: 0; z-index: 5;
+  display: grid; place-items: center; padding: 24px; text-align: center;
+  background: rgb(17 17 17 / 0.72); color: var(--bone); font: 600 var(--fs-lg)/1.2 var(--lx);
+  outline: 2px dashed var(--bone); outline-offset: -16px;
+}
 .drawer__head { display: none; }
 
 .qpalette { margin-top: 32px; }
@@ -393,7 +404,6 @@ code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monos
 /* ---------- 768–1199: splits stack below 1024 ---------- */
 @media (max-width: 1199px) {
   .chips { grid-template-columns: repeat(8, minmax(0, 1fr)); }
-  .qcontrols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
   .split { grid-template-columns: repeat(8, minmax(0, 1fr)); }
@@ -478,8 +488,7 @@ code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monos
   }
   .drawer__head { display: grid; grid-template-columns: 1fr auto; align-items: center; row-gap: 8px; }
   .drawer__grip { grid-column: 1 / -1; justify-self: center; width: 40px; height: 4px; border-radius: 2px; background: var(--g2); }
-  .qcontrols .btn { width: 100%; justify-content: center; }
-  .qcontrols #q-done { width: auto; }
+  .qlab__btns .btn { flex: 1 1 auto; justify-content: center; }
 
   .quiz .q { display: none; border-top: 0; padding-top: 0; }
   .quiz .q.is-current { display: block; }
