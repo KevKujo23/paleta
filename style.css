@@ -339,7 +339,7 @@ a.wordmark { display: inline-flex; flex-direction: column; gap: 4px; }
 .drawer__head { display: none; }
 
 .qpalette { margin-top: 32px; }
-.png8 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 32px; align-items: start; margin-top: 40px; }
+.png8 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: start; margin-top: 40px; }
 .png8 img { display: block; width: 100%; height: auto; }
 @media (max-width: 767px) { .png8 { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; } }
 code { font: inherit; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
